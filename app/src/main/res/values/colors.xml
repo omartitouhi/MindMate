@@ -2,4 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="mindmate_primary">#276EF1</color>
+    <color name="mindmate_secondary">#00A86B</color>
+    <color name="mindmate_surface">#F7F9FC</color>
 </resources>

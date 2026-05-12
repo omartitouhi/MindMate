@@ -3,26 +3,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.omartitouhi.mindmate.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
-
-        <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
-    </fragment>
+        android:id="@+id/authFragment"
+        android:name="com.omartitouhi.mindmate.ui.auth.AuthFragment"
+        android:label="@string/title_auth"
+        tools:layout="@layout/fragment_auth" />
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.omartitouhi.mindmate.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
-    </fragment>
+        android:id="@+id/homeFragment"
+        android:name="com.omartitouhi.mindmate.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/moodFragment"
+        android:name="com.omartitouhi.mindmate.ui.mood.MoodFragment"
+        android:label="@string/title_mood"
+        tools:layout="@layout/fragment_mood" />
+    <fragment
+        android:id="@+id/journalFragment"
+        android:name="com.omartitouhi.mindmate.ui.journal.JournalFragment"
+        android:label="@string/title_journal"
+        tools:layout="@layout/fragment_journal" />
+    <fragment
+        android:id="@+id/aiFragment"
+        android:name="com.omartitouhi.mindmate.ui.ai.AiFragment"
+        android:label="@string/title_ai"
+        tools:layout="@layout/fragment_ai" />
+    <fragment
+        android:id="@+id/meditationFragment"
+        android:name="com.omartitouhi.mindmate.ui.meditation.MeditationFragment"
+        android:label="@string/title_meditation"
+        tools:layout="@layout/fragment_meditation" />
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.omartitouhi.mindmate.ui.statistics.StatisticsFragment"
+        android:label="@string/title_statistics"
+        tools:layout="@layout/fragment_statistics" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.omartitouhi.mindmate.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
