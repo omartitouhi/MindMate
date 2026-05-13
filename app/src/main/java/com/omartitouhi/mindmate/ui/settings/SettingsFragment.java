@@ -1,4 +1,4 @@
-package com.omartitouhi.mindmate.ui.meditation;
+package com.omartitouhi.mindmate.ui.settings;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,15 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.omartitouhi.mindmate.databinding.FragmentMeditationBinding;
+import com.omartitouhi.mindmate.databinding.FragmentSettingsBinding;
 
-public class MeditationFragment extends Fragment {
-    private FragmentMeditationBinding binding;
+public class SettingsFragment extends Fragment {
+    private FragmentSettingsBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentMeditationBinding.inflate(inflater, container, false);
+        binding = FragmentSettingsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

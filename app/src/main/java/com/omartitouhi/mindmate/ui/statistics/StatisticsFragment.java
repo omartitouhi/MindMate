@@ -4,26 +4,26 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.omartitouhi.mindmate.R;
+import com.omartitouhi.mindmate.databinding.FragmentStatisticsBinding;
 
 public class StatisticsFragment extends Fragment {
+    private FragmentStatisticsBinding binding;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_statistics, container, false);
+        binding = FragmentStatisticsBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        StatisticsViewModel viewModel = new ViewModelProvider(this).get(StatisticsViewModel.class);
-        TextView placeholder = view.findViewById(R.id.text_placeholder);
-        viewModel.getTitle().observe(getViewLifecycleOwner(), placeholder::setText);
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

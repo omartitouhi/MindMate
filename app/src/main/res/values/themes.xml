@@ -1,8 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.MindMate" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/mindmate_primary</item>
+        <item name="colorSecondary">@color/mindmate_secondary</item>
+        <item name="colorSurface">@color/mindmate_surface</item>
+        <item name="colorPrimaryContainer">@color/mindmate_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/mindmate_on_primary_container</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Theme.MindMate" parent="Base.Theme.MindMate" />

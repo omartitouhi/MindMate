@@ -5,4 +5,7 @@
     <color name="mindmate_primary">#276EF1</color>
     <color name="mindmate_secondary">#00A86B</color>
     <color name="mindmate_surface">#F7F9FC</color>
+    <color name="mindmate_primary_container">#D8E5FF</color>
+    <color name="mindmate_on_primary_container">#092A66</color>
+    <color name="mindmate_outline">#D7DEE8</color>
 </resources>

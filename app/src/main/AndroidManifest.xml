@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MindMate">
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.MindMate">
             <intent-filter>
@@ -24,6 +24,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AuthActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MindMate" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.MindMate" />
 
         <service
             android:name=".utils.MindMateMessagingService"

@@ -1,6 +1,7 @@
 package com.omartitouhi.mindmate;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,17 +40,28 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout drawerLayout = binding.drawerLayout;
         appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.homeFragment,
-                R.id.moodFragment,
-                R.id.journalFragment,
-                R.id.aiFragment,
+                R.id.journalListFragment,
+                R.id.aiChatFragment,
                 R.id.meditationFragment,
                 R.id.statisticsFragment,
-                R.id.profileFragment
+                R.id.profileFragment,
+                R.id.settingsFragment,
+                R.id.aboutFragment
         ).setOpenableLayout(drawerLayout).build();
 
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
         NavigationUI.setupWithNavController(binding.appBarMain.bottomNavigation, navController);
+
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            int destinationId = destination.getId();
+            boolean bottomDestination = destinationId == R.id.homeFragment
+                    || destinationId == R.id.journalListFragment
+                    || destinationId == R.id.aiChatFragment
+                    || destinationId == R.id.statisticsFragment
+                    || destinationId == R.id.profileFragment;
+            binding.appBarMain.bottomNavigation.setVisibility(bottomDestination ? View.VISIBLE : View.GONE);
+        });
     }
 
     @Override
