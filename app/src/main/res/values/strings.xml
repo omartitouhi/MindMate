@@ -71,4 +71,11 @@
     <string name="journal_save_success">Entree sauvegardee et synchronisee.</string>
     <string name="journal_update_success">Journal mis a jour.</string>
     <string name="journal_entry_not_found">Entree introuvable.</string>
+    <string name="weather_title">Meteo actuelle</string>
+    <string name="weather_city_placeholder">Ville</string>
+    <string name="weather_temperature_placeholder">-- °C</string>
+    <string name="weather_condition_placeholder">Condition</string>
+    <string name="weather_advice_placeholder">Le conseil meteo apparaitra ici.</string>
+    <string name="weather_temperature">%1$.0f °C</string>
+    <string name="action_refresh_weather">Actualiser</string>
 </resources>

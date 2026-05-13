@@ -10,6 +10,7 @@ import com.omartitouhi.mindmate.data.local.AppDatabase;
 import com.omartitouhi.mindmate.data.local.MoodDao;
 import com.omartitouhi.mindmate.data.local.MoodEntity;
 import com.omartitouhi.mindmate.data.model.Mood;
+import com.omartitouhi.mindmate.data.model.WeatherInfo;
 import com.omartitouhi.mindmate.utils.Resource;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class MoodRepository {
     private final MoodDao moodDao;
     private final FirebaseFirestore firestore;
     private final FirebaseAuth firebaseAuth;
+    private final WeatherRepository weatherRepository;
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public MoodRepository(Context context) {
@@ -32,6 +34,7 @@ public class MoodRepository {
         moodDao = database.moodDao();
         firestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
+        weatherRepository = new WeatherRepository(context);
     }
 
     public LiveData<List<MoodEntity>> getLocalMoods() {
@@ -44,13 +47,17 @@ public class MoodRepository {
         String userId = firebaseAuth.getCurrentUser() != null
                 ? firebaseAuth.getCurrentUser().getUid()
                 : "anonymous";
+        WeatherInfo latestWeather = weatherRepository.getLatestWeather();
         Mood mood = new Mood(
                 UUID.randomUUID().toString(),
                 userId,
                 moodValue,
                 stressScore,
                 note,
-                System.currentTimeMillis()
+                System.currentTimeMillis(),
+                latestWeather == null ? null : latestWeather.getCity(),
+                latestWeather == null ? null : latestWeather.getTemperature(),
+                latestWeather == null ? null : latestWeather.getCondition()
         );
 
         executorService.execute(() -> {
