@@ -8,6 +8,8 @@
     <string name="title_mood">Humeur</string>
     <string name="title_mood_check_in">Mood check-in</string>
     <string name="title_journal">Journal</string>
+    <string name="title_add_journal">Nouvelle entree</string>
+    <string name="title_journal_details">Detail du journal</string>
     <string name="title_ai">AI Chat</string>
     <string name="title_meditation">Meditation</string>
     <string name="title_statistics">Statistiques</string>
@@ -57,4 +59,16 @@
     <string name="mood_note_hint">Note courte</string>
     <string name="action_save_mood">Sauvegarder mon humeur</string>
     <string name="mood_save_success">Humeur sauvegardee localement et synchronisee.</string>
+    <string name="journal_list_subtitle">Vos entrees personnelles, disponibles hors ligne et synchronisees.</string>
+    <string name="journal_empty">Aucune entree pour le moment.</string>
+    <string name="action_add_journal">Ajouter une entree</string>
+    <string name="action_save_journal">Sauvegarder</string>
+    <string name="action_update_journal">Modifier</string>
+    <string name="action_delete_journal">Supprimer</string>
+    <string name="journal_title_hint">Titre</string>
+    <string name="journal_mood_hint">Humeur associee</string>
+    <string name="journal_content_hint">Contenu</string>
+    <string name="journal_save_success">Entree sauvegardee et synchronisee.</string>
+    <string name="journal_update_success">Journal mis a jour.</string>
+    <string name="journal_entry_not_found">Entree introuvable.</string>
 </resources>

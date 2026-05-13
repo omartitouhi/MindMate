@@ -2,18 +2,34 @@ package com.omartitouhi.mindmate.data.local;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-
-import com.omartitouhi.mindmate.data.model.JournalEntry;
+import androidx.room.Update;
 
 import java.util.List;
 
 @Dao
 public interface JournalDao {
-    @Insert
-    void insert(JournalEntry journalEntry);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(JournalEntity journalEntity);
+
+    @Update
+    void update(JournalEntity journalEntity);
+
+    @Delete
+    void delete(JournalEntity journalEntity);
+
+    @Query("DELETE FROM journal_entries WHERE id = :id")
+    void deleteById(String id);
+
+    @Query("UPDATE journal_entries SET synced = 1 WHERE id = :id")
+    void markAsSynced(String id);
 
     @Query("SELECT * FROM journal_entries ORDER BY createdAt DESC")
-    LiveData<List<JournalEntry>> getAllJournalEntries();
+    LiveData<List<JournalEntity>> getAllJournalEntries();
+
+    @Query("SELECT * FROM journal_entries WHERE id = :id LIMIT 1")
+    LiveData<JournalEntity> getJournalEntry(String id);
 }

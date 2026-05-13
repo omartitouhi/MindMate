@@ -3,10 +3,10 @@ package com.omartitouhi.mindmate.data.repository;
 import androidx.lifecycle.LiveData;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.omartitouhi.mindmate.data.local.JournalEntity;
 import com.omartitouhi.mindmate.data.local.JournalDao;
 import com.omartitouhi.mindmate.data.local.MoodDao;
 import com.omartitouhi.mindmate.data.local.MoodEntity;
-import com.omartitouhi.mindmate.data.model.JournalEntry;
 import com.omartitouhi.mindmate.data.remote.ApiClient;
 import com.omartitouhi.mindmate.data.remote.MindMateApiService;
 
@@ -29,7 +29,7 @@ public class MindMateRepository {
         return moodDao.getAllMoods();
     }
 
-    public LiveData<List<JournalEntry>> getJournalEntries() {
+    public LiveData<List<JournalEntity>> getJournalEntries() {
         return journalDao.getAllJournalEntries();
     }
 

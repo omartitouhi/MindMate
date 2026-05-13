@@ -1,28 +1,33 @@
 package com.omartitouhi.mindmate.data.model;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
-@Entity(tableName = "journal_entries")
 public class JournalEntry {
-    @PrimaryKey(autoGenerate = true)
-    private long id;
+    private String id;
+    private String userId;
     private String title;
     private String content;
+    private String mood;
     private long createdAt;
+    private long updatedAt;
 
-    public JournalEntry(String title, String content, long createdAt) {
-        this.title = title;
-        this.content = content;
-        this.createdAt = createdAt;
+    public JournalEntry() {
     }
 
-    public long getId() {
+    public JournalEntry(String id, String userId, String title, String content, String mood, long createdAt, long updatedAt) {
+        this.id = id;
+        this.userId = userId;
+        this.title = title;
+        this.content = content;
+        this.mood = mood;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public String getUserId() {
+        return userId;
     }
 
     public String getTitle() {
@@ -33,7 +38,15 @@ public class JournalEntry {
         return content;
     }
 
+    public String getMood() {
+        return mood;
+    }
+
     public long getCreatedAt() {
         return createdAt;
+    }
+
+    public long getUpdatedAt() {
+        return updatedAt;
     }
 }
