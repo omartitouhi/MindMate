@@ -86,4 +86,8 @@
     <string name="action_analyze_journal">Analyser cette entree</string>
     <string name="ai_main_emotion">Emotion principale</string>
     <string name="ai_stress_result">Stress estime : %1$d / 10</string>
+    <string name="ai_chat_disclaimer">MindMate AI propose un soutien de bien-etre general. Il ne fournit pas de diagnostic medical et ne remplace pas un professionnel de sante.</string>
+    <string name="ai_chat_empty">Demarrez une conversation bien-etre avec MindMate AI.</string>
+    <string name="ai_chat_input_hint">Votre message</string>
+    <string name="action_send_message">Envoyer</string>
 </resources>

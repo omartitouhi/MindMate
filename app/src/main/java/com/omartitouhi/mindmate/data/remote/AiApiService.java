@@ -9,4 +9,7 @@ import retrofit2.http.POST;
 public interface AiApiService {
     @POST("ai/analyze-journal")
     Call<AiAnalysisResult> analyzeJournal(@Body AiAnalysisRequest request);
+
+    @POST("ai/chat")
+    Call<ChatResponse> chat(@Body ChatRequest request);
 }

@@ -26,6 +26,11 @@
         android:label="@string/title_journal_details"
         tools:layout="@layout/fragment_journal_details" />
     <fragment
+        android:id="@+id/aiChatFragment"
+        android:name="com.omartitouhi.mindmate.ui.ai.AIChatFragment"
+        android:label="@string/title_ai"
+        tools:layout="@layout/fragment_ai_chat" />
+    <fragment
         android:id="@+id/aiAnalysisFragment"
         android:name="com.omartitouhi.mindmate.ui.ai.AIAnalysisFragment"
         android:label="@string/title_ai_analysis"
