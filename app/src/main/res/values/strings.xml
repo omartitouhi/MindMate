@@ -6,6 +6,7 @@
     <string name="title_forgot_password">Mot de passe oublie</string>
     <string name="title_home">Accueil</string>
     <string name="title_mood">Humeur</string>
+    <string name="title_mood_check_in">Mood check-in</string>
     <string name="title_journal">Journal</string>
     <string name="title_ai">AI Chat</string>
     <string name="title_meditation">Meditation</string>
@@ -38,4 +39,22 @@
     <string name="action_reset_password">Reinitialiser</string>
     <string name="action_back_to_login">Retour a la connexion</string>
     <string name="action_logout">Se deconnecter</string>
+    <string name="mood_check_in_subtitle">Choisissez votre humeur, indiquez votre stress, puis ajoutez une note courte.</string>
+    <string name="mood_happy">Happy</string>
+    <string name="mood_calm">Calm</string>
+    <string name="mood_sad">Sad</string>
+    <string name="mood_angry">Angry</string>
+    <string name="mood_stressed">Stressed</string>
+    <string name="mood_tired">Tired</string>
+    <string name="mood_happy_emoji">😊</string>
+    <string name="mood_calm_emoji">😌</string>
+    <string name="mood_sad_emoji">😢</string>
+    <string name="mood_angry_emoji">😠</string>
+    <string name="mood_stressed_emoji">😰</string>
+    <string name="mood_tired_emoji">😴</string>
+    <string name="mood_stress_value_initial">Stress : 5 / 10</string>
+    <string name="mood_stress_value">Stress : %1$d / 10</string>
+    <string name="mood_note_hint">Note courte</string>
+    <string name="action_save_mood">Sauvegarder mon humeur</string>
+    <string name="mood_save_success">Humeur sauvegardee localement et synchronisee.</string>
 </resources>

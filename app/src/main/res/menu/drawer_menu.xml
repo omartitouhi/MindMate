@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/moodCheckInFragment"
+            android:icon="@drawable/ic_mood"
+            android:title="@string/title_mood_check_in" />
+        <item
             android:id="@+id/meditationFragment"
             android:icon="@drawable/ic_meditation"
             android:title="@string/title_meditation" />

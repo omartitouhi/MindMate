@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 R.id.journalListFragment,
                 R.id.aiChatFragment,
                 R.id.meditationFragment,
+                R.id.moodCheckInFragment,
                 R.id.statisticsFragment,
                 R.id.profileFragment,
                 R.id.settingsFragment,

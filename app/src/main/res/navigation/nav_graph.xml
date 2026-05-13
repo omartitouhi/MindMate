@@ -45,4 +45,9 @@
         android:name="com.omartitouhi.mindmate.ui.about.AboutFragment"
         android:label="@string/title_about"
         tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/moodCheckInFragment"
+        android:name="com.omartitouhi.mindmate.ui.mood.MoodCheckInFragment"
+        android:label="@string/title_mood_check_in"
+        tools:layout="@layout/fragment_mood_check_in" />
 </navigation>

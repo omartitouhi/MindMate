@@ -1,3 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="mood_card_stroke_width">1dp</dimen>
+    <dimen name="mood_selected_stroke_width">2dp</dimen>
 </resources>

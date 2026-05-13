@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.omartitouhi.mindmate.data.local.JournalDao;
 import com.omartitouhi.mindmate.data.local.MoodDao;
+import com.omartitouhi.mindmate.data.local.MoodEntity;
 import com.omartitouhi.mindmate.data.model.JournalEntry;
-import com.omartitouhi.mindmate.data.model.MoodEntry;
 import com.omartitouhi.mindmate.data.remote.ApiClient;
 import com.omartitouhi.mindmate.data.remote.MindMateApiService;
 
@@ -25,8 +25,8 @@ public class MindMateRepository {
         this.apiService = ApiClient.getApiService();
     }
 
-    public LiveData<List<MoodEntry>> getMoodEntries() {
-        return moodDao.getAllMoodEntries();
+    public LiveData<List<MoodEntity>> getMoodEntries() {
+        return moodDao.getAllMoods();
     }
 
     public LiveData<List<JournalEntry>> getJournalEntries() {
