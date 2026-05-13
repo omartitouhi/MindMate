@@ -11,6 +11,7 @@
     <string name="title_add_journal">Nouvelle entree</string>
     <string name="title_journal_details">Detail du journal</string>
     <string name="title_ai">AI Chat</string>
+    <string name="title_ai_analysis">Analyse IA</string>
     <string name="title_meditation">Meditation</string>
     <string name="title_statistics">Statistiques</string>
     <string name="title_profile">Profil</string>
@@ -78,4 +79,11 @@
     <string name="weather_advice_placeholder">Le conseil meteo apparaitra ici.</string>
     <string name="weather_temperature">%1$.0f °C</string>
     <string name="action_refresh_weather">Actualiser</string>
+    <string name="ai_analysis_subtitle">Selectionnez une entree de journal pour obtenir une lecture bien-etre structuree.</string>
+    <string name="ai_medical_disclaimer">Cette analyse est fournie à titre informatif et ne remplace pas un professionnel de santé.</string>
+    <string name="ai_select_journal">Entree de journal</string>
+    <string name="ai_no_journal_entries">Ajoutez une entree de journal avant de lancer une analyse.</string>
+    <string name="action_analyze_journal">Analyser cette entree</string>
+    <string name="ai_main_emotion">Emotion principale</string>
+    <string name="ai_stress_result">Stress estime : %1$d / 10</string>
 </resources>

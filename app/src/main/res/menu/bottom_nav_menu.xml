@@ -9,7 +9,7 @@
         android:icon="@drawable/ic_journal"
         android:title="@string/title_journal" />
     <item
-        android:id="@+id/aiChatFragment"
+        android:id="@+id/aiAnalysisFragment"
         android:icon="@drawable/ic_ai"
         android:title="@string/title_ai" />
     <item

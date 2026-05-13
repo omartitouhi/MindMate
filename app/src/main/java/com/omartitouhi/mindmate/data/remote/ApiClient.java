@@ -10,6 +10,7 @@ public final class ApiClient {
     private static final String WEATHER_BASE_URL = "https://api.open-meteo.com/v1/";
     private static MindMateApiService apiService;
     private static WeatherApiService weatherApiService;
+    private static AiApiService aiApiService;
 
     private ApiClient() {
     }
@@ -50,5 +51,24 @@ public final class ApiClient {
                     .create(WeatherApiService.class);
         }
         return weatherApiService;
+    }
+
+    public static AiApiService getAiApiService() {
+        if (aiApiService == null) {
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(loggingInterceptor)
+                    .build();
+
+            aiApiService = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .client(client)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                    .create(AiApiService.class);
+        }
+        return aiApiService;
     }
 }

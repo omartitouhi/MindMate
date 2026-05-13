@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.homeFragment,
                 R.id.journalListFragment,
-                R.id.aiChatFragment,
+                R.id.aiAnalysisFragment,
                 R.id.meditationFragment,
                 R.id.moodCheckInFragment,
                 R.id.statisticsFragment,
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             int destinationId = destination.getId();
             boolean bottomDestination = destinationId == R.id.homeFragment
                     || destinationId == R.id.journalListFragment
-                    || destinationId == R.id.aiChatFragment
+                    || destinationId == R.id.aiAnalysisFragment
                     || destinationId == R.id.statisticsFragment
                     || destinationId == R.id.profileFragment;
             binding.appBarMain.bottomNavigation.setVisibility(bottomDestination ? View.VISIBLE : View.GONE);
