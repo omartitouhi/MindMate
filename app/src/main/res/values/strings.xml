@@ -102,4 +102,22 @@
     <string name="action_start">Start</string>
     <string name="action_pause">Pause</string>
     <string name="action_reset">Reset</string>
+    <string name="statistics_subtitle">Un apercu local de votre humeur, stress et journal.</string>
+    <string name="statistics_empty">Aucune donnee pour le moment. Ajoutez une humeur ou une entree journal.</string>
+    <string name="statistics_mood_chart">Humeur sur 7 jours</string>
+    <string name="statistics_average_stress">Stress moyen</string>
+    <string name="statistics_journal_count">Entrees journal</string>
+    <string name="statistics_most_frequent_mood">Humeur la plus frequente</string>
+    <string name="statistics_stress_value">%1$.1f / 10</string>
+    <string name="statistics_count_value">%1$d</string>
+    <string name="notification_channel_reminders">Rappels MindMate</string>
+    <string name="notification_channel_reminders_description">Rappels journal et meditation</string>
+    <string name="notification_channel_messages">Messages MindMate</string>
+    <string name="notification_channel_messages_description">Messages motivationnels et bien-etre</string>
+    <string name="notification_daily_journal_title">Moment journal</string>
+    <string name="notification_daily_journal_body">Prenez deux minutes pour ecrire ce que vous ressentez aujourd\'hui.</string>
+    <string name="notification_meditation_title">Pause respiration</string>
+    <string name="notification_meditation_body">Une courte respiration guidee peut vous aider a revenir au calme.</string>
+    <string name="notification_motivation_title">Petit encouragement</string>
+    <string name="notification_motivation_body">Vous avancez a votre rythme. Un petit check-in suffit pour aujourd\'hui.</string>
 </resources>

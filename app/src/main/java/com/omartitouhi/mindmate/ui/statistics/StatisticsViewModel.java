@@ -1,13 +1,23 @@
 package com.omartitouhi.mindmate.ui.statistics;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-public class StatisticsViewModel extends ViewModel {
-    private final MutableLiveData<String> title = new MutableLiveData<>("Statistiques");
+import com.omartitouhi.mindmate.data.model.StatisticsSummary;
+import com.omartitouhi.mindmate.data.repository.StatisticsRepository;
 
-    public LiveData<String> getTitle() {
-        return title;
+public class StatisticsViewModel extends AndroidViewModel {
+    private final StatisticsRepository statisticsRepository;
+
+    public StatisticsViewModel(@NonNull Application application) {
+        super(application);
+        statisticsRepository = new StatisticsRepository(application);
+    }
+
+    public LiveData<StatisticsSummary> getSummary() {
+        return statisticsRepository.getSummary();
     }
 }

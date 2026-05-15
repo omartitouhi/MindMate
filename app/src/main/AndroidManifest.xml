@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -34,12 +35,16 @@
             android:theme="@style/Theme.MindMate" />
 
         <service
-            android:name=".utils.MindMateMessagingService"
+            android:name=".utils.NotificationService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <receiver
+            android:name=".utils.JournalReminderReceiver"
+            android:exported="false" />
     </application>
 
 </manifest>
