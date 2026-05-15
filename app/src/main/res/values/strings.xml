@@ -120,4 +120,16 @@
     <string name="notification_meditation_body">Une courte respiration guidee peut vous aider a revenir au calme.</string>
     <string name="notification_motivation_title">Petit encouragement</string>
     <string name="notification_motivation_body">Vous avancez a votre rythme. Un petit check-in suffit pour aujourd\'hui.</string>
+    <string name="profile_name_hint">Nom</string>
+    <string name="profile_email_value">Email : %1$s</string>
+    <string name="profile_stat_journals">Journal</string>
+    <string name="profile_stat_stress">Stress moyen</string>
+    <string name="profile_frequent_mood_value">Humeur la plus frequente : %1$s</string>
+    <string name="action_save_profile">Enregistrer le nom</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_reminder_time_value">Rappel journal : %1$s</string>
+    <string name="action_choose_reminder_time">Choisir l\'heure du rappel</string>
+    <string name="settings_dark_mode">Dark mode</string>
+    <string name="settings_local_data">Donnees locales</string>
+    <string name="action_delete_local_data">Supprimer les donnees locales</string>
 </resources>

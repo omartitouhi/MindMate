@@ -1,12 +1,14 @@
 package com.omartitouhi.mindmate;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.core.graphics.Insets;
@@ -20,6 +22,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.omartitouhi.mindmate.databinding.ActivityMainBinding;
+import com.omartitouhi.mindmate.ui.settings.SettingsViewModel;
 import com.omartitouhi.mindmate.utils.NotificationHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -83,9 +86,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeNotifications() {
+        SharedPreferences preferences = getSharedPreferences(SettingsViewModel.PREFS_NAME, MODE_PRIVATE);
+        boolean notificationsEnabled = preferences.getBoolean(SettingsViewModel.KEY_NOTIFICATIONS_ENABLED, true);
+        int reminderHour = preferences.getInt(SettingsViewModel.KEY_JOURNAL_REMINDER_HOUR, 20);
+        int reminderMinute = preferences.getInt(SettingsViewModel.KEY_JOURNAL_REMINDER_MINUTE, 0);
+        boolean darkMode = preferences.getBoolean(SettingsViewModel.KEY_DARK_MODE, false);
+
+        AppCompatDelegate.setDefaultNightMode(darkMode
+                ? AppCompatDelegate.MODE_NIGHT_YES
+                : AppCompatDelegate.MODE_NIGHT_NO);
+
         NotificationHelper notificationHelper = new NotificationHelper(this);
         notificationHelper.createNotificationChannels();
-        notificationHelper.scheduleDailyJournalReminder();
+        if (notificationsEnabled) {
+            notificationHelper.scheduleDailyJournalReminder(reminderHour, reminderMinute);
+        } else {
+            notificationHelper.cancelDailyJournalReminder();
+        }
         NotificationHelper.fetchAndSaveFcmToken();
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU

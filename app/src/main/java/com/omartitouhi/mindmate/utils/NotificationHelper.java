@@ -99,6 +99,10 @@ public class NotificationHelper {
     }
 
     public void scheduleDailyJournalReminder() {
+        scheduleDailyJournalReminder(20, 0);
+    }
+
+    public void scheduleDailyJournalReminder(int hour, int minute) {
         Intent intent = new Intent(context, JournalReminderReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 context,
@@ -108,8 +112,8 @@ public class NotificationHelper {
         );
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 20);
-        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
@@ -124,6 +128,20 @@ public class NotificationHelper {
                     AlarmManager.INTERVAL_DAY,
                     pendingIntent
             );
+        }
+    }
+
+    public void cancelDailyJournalReminder() {
+        Intent intent = new Intent(context, JournalReminderReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                context,
+                JOURNAL_REMINDER_REQUEST_CODE,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null) {
+            alarmManager.cancel(pendingIntent);
         }
     }
 
