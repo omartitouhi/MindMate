@@ -1,7 +1,16 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.MindMate" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/mindmate_primary</item>
+        <item name="colorSecondary">@color/mindmate_secondary</item>
+        <item name="android:colorBackground">#0F1724</item>
+        <item name="colorSurface">#111C2B</item>
+        <item name="colorSurfaceVariant">#1B283A</item>
+        <item name="colorPrimaryContainer">#173A78</item>
+        <item name="colorOnPrimaryContainer">#D8E5FF</item>
+        <item name="colorOutline">#334155</item>
+        <item name="android:statusBarColor">#111C2B</item>
+        <item name="android:navigationBarColor">#111C2B</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
     </style>
 </resources>

@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:background="@color/mindmate_primary"
+        android:background="@drawable/bg_chat_user"
         android:maxWidth="280dp"
         android:padding="12dp"
         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"

@@ -8,4 +8,15 @@
     <color name="mindmate_primary_container">#D8E5FF</color>
     <color name="mindmate_on_primary_container">#092A66</color>
     <color name="mindmate_outline">#D7DEE8</color>
+    <color name="mindmate_background">#F4F7FB</color>
+    <color name="mindmate_surface_container">#FFFFFF</color>
+    <color name="mindmate_surface_variant">#EEF3F8</color>
+    <color name="mindmate_text_primary">#172033</color>
+    <color name="mindmate_text_secondary">#657084</color>
+    <color name="mindmate_success_container">#DDF7EA</color>
+    <color name="mindmate_on_success_container">#0F5132</color>
+    <color name="mindmate_error_container">#FFE4E8</color>
+    <color name="mindmate_on_error_container">#8A1024</color>
+    <color name="mindmate_nav_selected">#1F5FD4</color>
+    <color name="mindmate_nav_unselected">#7A8495</color>
 </resources>

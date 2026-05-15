@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mindmate_surface"
+    android:background="@color/mindmate_background"
     android:fillViewport="true">
 
     <LinearLayout
@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@color/mindmate_primary_container"
+            android:background="@drawable/bg_soft_info"
             android:padding="14dp"
             android:text="@string/ai_medical_disclaimer"
             android:textAppearance="@style/TextAppearance.Material3.BodySmall"
@@ -100,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:visibility="gone"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/mindmate_surface_container"
             app:cardCornerRadius="8dp"
             app:cardElevation="0dp"
             app:strokeColor="@color/mindmate_outline"
@@ -156,7 +156,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
-                    android:background="@color/mindmate_primary_container"
+                    android:background="@drawable/bg_soft_info"
                     android:padding="14dp"
                     android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                     android:textColor="@color/mindmate_on_primary_container" />
