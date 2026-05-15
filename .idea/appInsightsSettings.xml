@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.omartitouhi.mindmate" />
+                  <option name="mobileSdkAppId" value="1:453168632146:android:90416eeb9d5cbe9b332a8b" />
+                  <option name="projectId" value="mindmateprojet" />
+                  <option name="projectNumber" value="453168632146" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
