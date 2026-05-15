@@ -90,4 +90,16 @@
     <string name="ai_chat_empty">Demarrez une conversation bien-etre avec MindMate AI.</string>
     <string name="ai_chat_input_hint">Votre message</string>
     <string name="action_send_message">Envoyer</string>
+    <string name="meditation_subtitle">Choisissez un exercice, puis laissez le timer guider votre respiration.</string>
+    <string name="meditation_select_exercise">Selectionnez un exercice</string>
+    <string name="meditation_ready">Pret</string>
+    <string name="meditation_timer_placeholder">00:00</string>
+    <string name="meditation_inhale">Inspirez</string>
+    <string name="meditation_hold">Retenez</string>
+    <string name="meditation_exhale">Expirez</string>
+    <string name="meditation_soft_breath">Respirez doucement</string>
+    <string name="meditation_complete">Termine</string>
+    <string name="action_start">Start</string>
+    <string name="action_pause">Pause</string>
+    <string name="action_reset">Reset</string>
 </resources>
