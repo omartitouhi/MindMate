@@ -39,4 +39,10 @@ public class ChatViewModel extends ViewModel {
     public void clearState() {
         chatState.setValue(null);
     }
+
+    @Override
+    protected void onCleared() {
+        chatRepository.dispose();
+        super.onCleared();
+    }
 }

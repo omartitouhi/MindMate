@@ -23,6 +23,17 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        val mindMateApiBaseUrl = providers.gradleProperty("MINDMATE_API_BASE_URL")
+            .orElse("https://mindmate-api.local/api/")
+            .get()
+        buildConfigField("String", "MINDMATE_API_BASE_URL", "\"$mindMateApiBaseUrl\"")
+        buildConfigField("String", "WEATHER_API_BASE_URL", "\"https://api.open-meteo.com/v1/\"")
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                argument("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
     }
 
     buildTypes {
@@ -40,6 +51,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 

@@ -147,7 +147,9 @@ public class NotificationHelper {
 
     public static void fetchAndSaveFcmToken() {
         FirebaseMessaging.getInstance().getToken()
-                .addOnSuccessListener(NotificationHelper::saveFcmToken);
+                .addOnSuccessListener(NotificationHelper::saveFcmToken)
+                .addOnFailureListener(exception -> {
+                });
     }
 
     public static void saveFcmToken(String token) {
@@ -167,6 +169,8 @@ public class NotificationHelper {
                 .document(userId)
                 .collection("fcm_tokens")
                 .document(token)
-                .set(tokenData);
+                .set(tokenData)
+                .addOnFailureListener(exception -> {
+                });
     }
 }

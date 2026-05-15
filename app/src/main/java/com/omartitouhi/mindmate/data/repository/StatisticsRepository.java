@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.omartitouhi.mindmate.data.local.AppDatabase;
 import com.omartitouhi.mindmate.data.local.JournalEntity;
 import com.omartitouhi.mindmate.data.local.MoodEntity;
@@ -25,8 +26,11 @@ public class StatisticsRepository {
 
     public StatisticsRepository(Context context) {
         AppDatabase database = AppDatabase.getInstance(context);
-        moods = database.moodDao().getAllMoods();
-        journals = database.journalDao().getAllJournalEntries();
+        String userId = FirebaseAuth.getInstance().getCurrentUser() != null
+                ? FirebaseAuth.getInstance().getCurrentUser().getUid()
+                : "anonymous";
+        moods = database.moodDao().getMoodsForUser(userId);
+        journals = database.journalDao().getJournalEntriesForUser(userId);
 
         summary.addSource(moods, moodEntities -> {
             latestMoods = moodEntities == null ? new ArrayList<>() : moodEntities;

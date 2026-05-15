@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.omartitouhi.mindmate.R;
 import com.omartitouhi.mindmate.databinding.FragmentSettingsBinding;
 import com.omartitouhi.mindmate.utils.Resource;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Locale;
 
@@ -38,7 +39,7 @@ public class SettingsFragment extends Fragment {
         binding.darkModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) ->
                 settingsViewModel.setDarkModeEnabled(isChecked));
         binding.changeReminderTimeButton.setOnClickListener(v -> showReminderTimePicker());
-        binding.deleteLocalDataButton.setOnClickListener(v -> settingsViewModel.deleteLocalData());
+        binding.deleteLocalDataButton.setOnClickListener(v -> confirmLocalDataDeletion());
 
         settingsViewModel.getSettingsState().observe(getViewLifecycleOwner(), this::renderState);
     }
@@ -63,6 +64,15 @@ public class SettingsFragment extends Fragment {
                 R.string.settings_reminder_time_value,
                 String.format(Locale.getDefault(), "%02d:%02d", settingsViewModel.getReminderHour(), settingsViewModel.getReminderMinute())
         ));
+    }
+
+    private void confirmLocalDataDeletion() {
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.action_delete_local_data)
+                .setMessage(R.string.settings_delete_local_data_confirmation)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> settingsViewModel.deleteLocalData())
+                .show();
     }
 
     private void renderState(Resource<String> state) {

@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
+import com.google.android.gms.tasks.Task;
 import com.omartitouhi.mindmate.data.model.ChatMessage;
 import com.omartitouhi.mindmate.data.remote.ApiClient;
 import com.omartitouhi.mindmate.data.remote.ChatRequest;
@@ -28,10 +30,14 @@ public class ChatRepository {
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     private final MutableLiveData<List<ChatMessage>> messages = new MutableLiveData<>(new ArrayList<>());
+    private ListenerRegistration messagesRegistration;
 
     public LiveData<List<ChatMessage>> getMessages() {
+        if (messagesRegistration != null) {
+            return messages;
+        }
         String userId = getUserId();
-        firestore.collection("users")
+        messagesRegistration = firestore.collection("users")
                 .document(userId)
                 .collection("chat_messages")
                 .orderBy("createdAt", Query.Direction.ASCENDING)
@@ -56,7 +62,8 @@ public class ChatRepository {
                 System.currentTimeMillis()
         );
 
-        saveMessage(userMessage);
+        saveMessage(userMessage)
+                .addOnFailureListener(exception -> callback.onResult(Resource.error(getReadableError(exception))));
 
         List<ChatMessage> requestMessages = new ArrayList<>();
         if (currentMessages != null) {
@@ -80,7 +87,8 @@ public class ChatRepository {
                         body.getReply(),
                         System.currentTimeMillis()
                 );
-                saveMessage(assistantMessage);
+                saveMessage(assistantMessage)
+                        .addOnFailureListener(exception -> callback.onResult(Resource.error(getReadableError(exception))));
                 callback.onResult(Resource.success(assistantMessage));
             }
 
@@ -91,12 +99,19 @@ public class ChatRepository {
         });
     }
 
-    private void saveMessage(ChatMessage message) {
-        firestore.collection("users")
+    private Task<Void> saveMessage(ChatMessage message) {
+        return firestore.collection("users")
                 .document(message.getUserId())
                 .collection("chat_messages")
                 .document(message.getId())
                 .set(message);
+    }
+
+    public void dispose() {
+        if (messagesRegistration != null) {
+            messagesRegistration.remove();
+            messagesRegistration = null;
+        }
     }
 
     private String getUserId() {

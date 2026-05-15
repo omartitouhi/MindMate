@@ -30,6 +30,12 @@ public interface JournalDao {
     @Query("SELECT * FROM journal_entries ORDER BY createdAt DESC")
     LiveData<List<JournalEntity>> getAllJournalEntries();
 
+    @Query("SELECT * FROM journal_entries WHERE userId = :userId ORDER BY createdAt DESC")
+    LiveData<List<JournalEntity>> getJournalEntriesForUser(String userId);
+
     @Query("SELECT * FROM journal_entries WHERE id = :id LIMIT 1")
     LiveData<JournalEntity> getJournalEntry(String id);
+
+    @Query("SELECT * FROM journal_entries WHERE userId = :userId AND synced = 0 ORDER BY updatedAt ASC")
+    List<JournalEntity> getUnsyncedJournalEntriesForUser(String userId);
 }

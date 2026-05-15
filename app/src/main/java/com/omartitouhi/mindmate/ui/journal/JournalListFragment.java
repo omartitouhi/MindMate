@@ -33,13 +33,13 @@ public class JournalListFragment extends Fragment {
         journalAdapter = new JournalAdapter(entry -> {
             Bundle args = new Bundle();
             args.putString(JournalDetailsFragment.ARG_ENTRY_ID, entry.getId());
-            NavHostFragment.findNavController(this).navigate(R.id.journalDetailsFragment, args);
+            NavHostFragment.findNavController(this).navigate(R.id.action_journalListFragment_to_journalDetailsFragment, args);
         });
 
         binding.journalRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.journalRecyclerView.setAdapter(journalAdapter);
         binding.addJournalButton.setOnClickListener(v ->
-                NavHostFragment.findNavController(this).navigate(R.id.addJournalFragment));
+                NavHostFragment.findNavController(this).navigate(R.id.action_journalListFragment_to_addJournalFragment));
 
         journalViewModel.getJournalEntries().observe(getViewLifecycleOwner(), entries -> {
             journalAdapter.submitList(entries);

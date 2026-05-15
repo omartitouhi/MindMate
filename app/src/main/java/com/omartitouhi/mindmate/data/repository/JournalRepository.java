@@ -35,7 +35,7 @@ public class JournalRepository {
     }
 
     public LiveData<List<JournalEntity>> getJournalEntries() {
-        return journalDao.getAllJournalEntries();
+        return journalDao.getJournalEntriesForUser(getUserId());
     }
 
     public LiveData<JournalEntity> getJournalEntry(String id) {
@@ -73,13 +73,15 @@ public class JournalRepository {
         callback.onResult(Resource.loading());
         executorService.execute(() -> {
             try {
-                journalDao.delete(entity);
                 firestore.collection("users")
                         .document(entity.getUserId())
                         .collection("journal_entries")
                         .document(entity.getId())
                         .delete()
-                        .addOnSuccessListener(unused -> callback.onResult(Resource.success(entity.toJournalEntry())))
+                        .addOnSuccessListener(unused -> executorService.execute(() -> {
+                            journalDao.delete(entity);
+                            callback.onResult(Resource.success(entity.toJournalEntry()));
+                        }))
                         .addOnFailureListener(exception -> callback.onResult(Resource.error(getReadableError(exception))));
             } catch (Exception exception) {
                 callback.onResult(Resource.error(getReadableError(exception)));
@@ -91,6 +93,7 @@ public class JournalRepository {
         callback.onResult(Resource.loading());
         executorService.execute(() -> {
             try {
+                syncPendingEntries();
                 journalDao.insert(JournalEntity.fromJournalEntry(entry, false));
                 firestore.collection("users")
                         .document(entry.getUserId())
@@ -112,6 +115,19 @@ public class JournalRepository {
         return firebaseAuth.getCurrentUser() != null
                 ? firebaseAuth.getCurrentUser().getUid()
                 : "anonymous";
+    }
+
+    private void syncPendingEntries() {
+        List<JournalEntity> pendingEntries = journalDao.getUnsyncedJournalEntriesForUser(getUserId());
+        for (JournalEntity entity : pendingEntries) {
+            JournalEntry pendingEntry = entity.toJournalEntry();
+            firestore.collection("users")
+                    .document(pendingEntry.getUserId())
+                    .collection("journal_entries")
+                    .document(pendingEntry.getId())
+                    .set(pendingEntry)
+                    .addOnSuccessListener(unused -> executorService.execute(() -> journalDao.markAsSynced(pendingEntry.getId())));
+        }
     }
 
     private String getReadableError(Exception exception) {

@@ -18,4 +18,10 @@ public interface MoodDao {
 
     @Query("SELECT * FROM moods ORDER BY createdAt DESC")
     LiveData<List<MoodEntity>> getAllMoods();
+
+    @Query("SELECT * FROM moods WHERE userId = :userId ORDER BY createdAt DESC")
+    LiveData<List<MoodEntity>> getMoodsForUser(String userId);
+
+    @Query("SELECT * FROM moods WHERE userId = :userId AND synced = 0 ORDER BY createdAt ASC")
+    List<MoodEntity> getUnsyncedMoodsForUser(String userId);
 }

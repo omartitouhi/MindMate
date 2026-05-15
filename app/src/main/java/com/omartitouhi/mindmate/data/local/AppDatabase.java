@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {MoodEntity.class, JournalEntity.class}, version = 4, exportSchema = false)
+@Database(entities = {MoodEntity.class, JournalEntity.class}, version = 4, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
     private static volatile AppDatabase instance;
 
@@ -22,7 +22,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             AppDatabase.class,
                             "mindmate.db"
-                    ).fallbackToDestructiveMigration(false).build();
+                    ).build();
                 }
             }
         }

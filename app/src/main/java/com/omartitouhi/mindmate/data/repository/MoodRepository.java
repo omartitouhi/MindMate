@@ -38,15 +38,13 @@ public class MoodRepository {
     }
 
     public LiveData<List<MoodEntity>> getLocalMoods() {
-        return moodDao.getAllMoods();
+        return moodDao.getMoodsForUser(getUserId());
     }
 
     public void saveMood(String moodValue, int stressScore, String note, MoodCallback callback) {
         callback.onResult(Resource.loading());
 
-        String userId = firebaseAuth.getCurrentUser() != null
-                ? firebaseAuth.getCurrentUser().getUid()
-                : "anonymous";
+        String userId = getUserId();
         WeatherInfo latestWeather = weatherRepository.getLatestWeather();
         Mood mood = new Mood(
                 UUID.randomUUID().toString(),
@@ -62,6 +60,7 @@ public class MoodRepository {
 
         executorService.execute(() -> {
             try {
+                syncPendingMoods();
                 moodDao.insert(MoodEntity.fromMood(mood, false));
                 saveMoodInFirestore(mood, callback);
             } catch (Exception exception) {
@@ -81,6 +80,25 @@ public class MoodRepository {
                     callback.onResult(Resource.success(mood));
                 }))
                 .addOnFailureListener(exception -> callback.onResult(Resource.error(getReadableError(exception))));
+    }
+
+    private void syncPendingMoods() {
+        List<MoodEntity> pendingMoods = moodDao.getUnsyncedMoodsForUser(getUserId());
+        for (MoodEntity entity : pendingMoods) {
+            Mood pendingMood = entity.toMood();
+            firestore.collection("users")
+                    .document(pendingMood.getUserId())
+                    .collection("moods")
+                    .document(pendingMood.getId())
+                    .set(pendingMood)
+                    .addOnSuccessListener(unused -> executorService.execute(() -> moodDao.markAsSynced(pendingMood.getId())));
+        }
+    }
+
+    private String getUserId() {
+        return firebaseAuth.getCurrentUser() != null
+                ? firebaseAuth.getCurrentUser().getUid()
+                : "anonymous";
     }
 
     private String getReadableError(Exception exception) {

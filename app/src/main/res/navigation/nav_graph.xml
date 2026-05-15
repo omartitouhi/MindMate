@@ -14,7 +14,14 @@
         android:id="@+id/journalListFragment"
         android:name="com.omartitouhi.mindmate.ui.journal.JournalListFragment"
         android:label="@string/title_journal"
-        tools:layout="@layout/fragment_journal_list" />
+        tools:layout="@layout/fragment_journal_list">
+        <action
+            android:id="@+id/action_journalListFragment_to_addJournalFragment"
+            app:destination="@id/addJournalFragment" />
+        <action
+            android:id="@+id/action_journalListFragment_to_journalDetailsFragment"
+            app:destination="@id/journalDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addJournalFragment"
         android:name="com.omartitouhi.mindmate.ui.journal.AddJournalFragment"
@@ -24,7 +31,12 @@
         android:id="@+id/journalDetailsFragment"
         android:name="com.omartitouhi.mindmate.ui.journal.JournalDetailsFragment"
         android:label="@string/title_journal_details"
-        tools:layout="@layout/fragment_journal_details" />
+        tools:layout="@layout/fragment_journal_details">
+        <argument
+            android:name="entry_id"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
     <fragment
         android:id="@+id/aiChatFragment"
         android:name="com.omartitouhi.mindmate.ui.ai.AIChatFragment"
