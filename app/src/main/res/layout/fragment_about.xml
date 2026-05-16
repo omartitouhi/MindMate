@@ -62,7 +62,7 @@
                 android:background="@drawable/bg_soft_info"
                 android:paddingHorizontal="14dp"
                 android:paddingVertical="8dp"
-                android:text="@string/screen_ready"
+                android:text="@string/developed"
                 android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                 android:textColor="@color/mindmate_on_primary_container" />
 

@@ -133,4 +133,5 @@
     <string name="settings_local_data">Donnees locales</string>
     <string name="action_delete_local_data">Supprimer les donnees locales</string>
     <string name="settings_delete_local_data_confirmation">Cette action supprime les donnees locales de cet appareil. Les donnees deja synchronisees restent disponibles dans le cloud.</string>
+    <string name="developed">Developed by : Omar Titouhi - Mohamed Kadehm Rebai - Yassin Dridi - Waael Turki</string>
 </resources>
