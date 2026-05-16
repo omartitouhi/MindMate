@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -16,6 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.PermissionChecker;
 import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -39,17 +39,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         applySavedTheme();
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, android.R.color.transparent));
+        getWindow().setNavigationBarColor(ContextCompat.getColor(this, android.R.color.transparent));
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initializeNotifications();
+        applySystemBarInsets();
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main, (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
         setSupportActionBar(binding.toolbar);
 
         NavHostFragment navHostFragment =
@@ -114,6 +112,40 @@ public class MainActivity extends AppCompatActivity {
                 && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PermissionChecker.PERMISSION_GRANTED) {
             notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
         }
+    }
+
+    private void applySystemBarInsets() {
+        final int appBarInitialPaddingLeft = binding.appBarLayout.getPaddingLeft();
+        final int appBarInitialPaddingTop = binding.appBarLayout.getPaddingTop();
+        final int appBarInitialPaddingRight = binding.appBarLayout.getPaddingRight();
+        final int appBarInitialPaddingBottom = binding.appBarLayout.getPaddingBottom();
+
+        final int bottomNavInitialPaddingLeft = binding.appBarMain.bottomNavigation.getPaddingLeft();
+        final int bottomNavInitialPaddingTop = binding.appBarMain.bottomNavigation.getPaddingTop();
+        final int bottomNavInitialPaddingRight = binding.appBarMain.bottomNavigation.getPaddingRight();
+        final int bottomNavInitialPaddingBottom = binding.appBarMain.bottomNavigation.getPaddingBottom();
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.drawerLayout, (view, insets) -> {
+            Insets statusBars = insets.getInsets(WindowInsetsCompat.Type.statusBars() | WindowInsetsCompat.Type.displayCutout());
+            Insets navigationBars = insets.getInsets(WindowInsetsCompat.Type.navigationBars());
+
+            binding.appBarLayout.setPadding(
+                    appBarInitialPaddingLeft,
+                    appBarInitialPaddingTop + statusBars.top,
+                    appBarInitialPaddingRight,
+                    appBarInitialPaddingBottom
+            );
+
+            binding.appBarMain.bottomNavigation.setPadding(
+                    bottomNavInitialPaddingLeft,
+                    bottomNavInitialPaddingTop,
+                    bottomNavInitialPaddingRight,
+                    bottomNavInitialPaddingBottom + navigationBars.bottom
+            );
+
+            return insets;
+        });
+        ViewCompat.requestApplyInsets(binding.drawerLayout);
     }
 
     private void handleNavigationIntent(Intent intent) {

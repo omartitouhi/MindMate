@@ -3,7 +3,9 @@
     <gradient
         android:angle="135"
         android:startColor="@color/mindmate_primary_container"
-        android:centerColor="@color/mindmate_chip"
         android:endColor="@color/mindmate_success_container" />
-    <corners android:radius="@dimen/mindmate_card_radius" />
+    <stroke
+        android:width="@dimen/mood_selected_stroke_width"
+        android:color="@color/mindmate_primary" />
+    <corners android:radius="@dimen/mindmate_card_radius_small" />
 </shape>

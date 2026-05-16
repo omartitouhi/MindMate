@@ -14,14 +14,12 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <TextView
-            android:layout_width="76dp"
-            android:layout_height="76dp"
-            android:background="@drawable/bg_avatar"
-            android:gravity="center"
-            android:text="M"
-            android:textAppearance="@style/TextAppearance.Material3.DisplaySmall"
-            android:textColor="@color/white" />
+        <ImageView
+            android:layout_width="@dimen/mindmate_logo_auth_width"
+            android:layout_height="@dimen/mindmate_logo_auth_height"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitCenter"
+            android:src="@drawable/mindmate_logo_main" />
 
         <TextView
             android:layout_width="match_parent"

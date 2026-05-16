@@ -26,14 +26,12 @@
                 android:orientation="vertical"
                 android:padding="24dp">
 
-                <TextView
+                <ImageView
                     android:layout_width="@dimen/mindmate_avatar_size"
                     android:layout_height="@dimen/mindmate_avatar_size"
-                    android:background="@drawable/bg_avatar"
-                    android:gravity="center"
-                    android:text="M"
-                    android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
-                    android:textColor="@color/white" />
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/mindmate_logo_icon" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -190,6 +188,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
+            app:strokeColor="@color/mindmate_coral"
+            android:textColor="@color/mindmate_coral"
             android:text="@string/action_logout" />
     </LinearLayout>
 </ScrollView>

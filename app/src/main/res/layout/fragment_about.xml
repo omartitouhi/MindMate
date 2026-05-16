@@ -27,14 +27,12 @@
             android:orientation="vertical"
             android:padding="28dp">
 
-            <TextView
+            <ImageView
                 android:layout_width="72dp"
                 android:layout_height="72dp"
-                android:background="@drawable/bg_avatar"
-                android:gravity="center"
-                android:text="M"
-                android:textAppearance="@style/TextAppearance.Material3.HeadlineLarge"
-                android:textColor="@color/white" />
+                android:contentDescription="@string/app_name"
+                android:scaleType="fitCenter"
+                android:src="@drawable/mindmate_logo_icon" />
 
             <TextView
                 android:id="@+id/title_text"
@@ -67,6 +65,15 @@
                 android:text="@string/screen_ready"
                 android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                 android:textColor="@color/mindmate_on_primary_container" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="MindMate accompagne le bien-etre quotidien et ne remplace pas un professionnel de sante."
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                android:textColor="?attr/colorOnSurfaceVariant" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

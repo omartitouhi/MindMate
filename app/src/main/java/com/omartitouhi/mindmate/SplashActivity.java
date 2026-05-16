@@ -17,6 +17,15 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        binding.splashAnimation.setAlpha(0f);
+        binding.splashAnimation.setScaleX(0.94f);
+        binding.splashAnimation.setScaleY(0.94f);
+        binding.splashAnimation.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(450)
+                .start();
 
         AuthViewModel authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         Class<?> destination = authViewModel.isUserLoggedIn() ? MainActivity.class : AuthActivity.class;

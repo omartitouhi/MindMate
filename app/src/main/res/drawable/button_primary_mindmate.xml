@@ -4,9 +4,5 @@
         android:angle="0"
         android:startColor="@color/mindmate_blue"
         android:endColor="@color/mindmate_mint" />
-    <corners
-        android:bottomLeftRadius="22dp"
-        android:bottomRightRadius="6dp"
-        android:topLeftRadius="22dp"
-        android:topRightRadius="22dp" />
+    <corners android:radius="26dp" />
 </shape>

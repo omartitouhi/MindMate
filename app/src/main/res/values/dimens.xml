@@ -7,14 +7,16 @@
     <dimen name="mindmate_spacing_lg">16dp</dimen>
     <dimen name="mindmate_spacing_xl">20dp</dimen>
     <dimen name="mindmate_spacing_2xl">24dp</dimen>
-    <dimen name="mindmate_card_radius">22dp</dimen>
-    <dimen name="mindmate_card_radius_small">16dp</dimen>
+    <dimen name="mindmate_card_radius">24dp</dimen>
+    <dimen name="mindmate_card_radius_small">20dp</dimen>
     <dimen name="mindmate_card_stroke">1dp</dimen>
     <dimen name="mindmate_card_padding">20dp</dimen>
     <dimen name="mindmate_button_height">54dp</dimen>
     <dimen name="mindmate_bottom_nav_elevation">12dp</dimen>
     <dimen name="mood_card_stroke_width">1dp</dimen>
     <dimen name="mood_selected_stroke_width">3dp</dimen>
-    <dimen name="mindmate_avatar_size">74dp</dimen>
+    <dimen name="mindmate_avatar_size">82dp</dimen>
     <dimen name="mindmate_touch_target">48dp</dimen>
+    <dimen name="mindmate_logo_auth_width">190dp</dimen>
+    <dimen name="mindmate_logo_auth_height">112dp</dimen>
 </resources>
