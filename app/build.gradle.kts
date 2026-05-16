@@ -20,7 +20,7 @@ android {
         minSdk = 24
         targetSdk = 36
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         val mindMateApiBaseUrl = providers.gradleProperty("MINDMATE_API_BASE_URL")
