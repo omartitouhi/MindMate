@@ -3,28 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mindmate_background"
+    android:background="@drawable/bg_app_gradient"
     android:fillViewport="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="640dp"
+        android:gravity="center"
+        android:minHeight="680dp"
+        android:orientation="vertical"
         android:padding="24dp">
+
+        <TextView
+            android:layout_width="76dp"
+            android:layout_height="76dp"
+            android:background="@drawable/bg_avatar"
+            android:gravity="center"
+            android:text="M"
+            android:textAppearance="@style/TextAppearance.Material3.DisplaySmall"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:gravity="center"
+            android:text="@string/auth_welcome"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+            android:textColor="?attr/colorOnSurface" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/auth_login_subtitle"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/auth_card"
-            android:layout_width="0dp"
+            style="@style/Widget.MindMate.Card"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/mindmate_surface_container"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="@color/mindmate_outline"
-            app:strokeWidth="1dp">
+            android:layout_marginTop="26dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -32,27 +54,11 @@
                 android:orientation="vertical"
                 android:padding="24dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/auth_welcome"
-                    android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-                    android:textColor="?attr/colorOnSurface" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="@string/auth_login_subtitle"
-                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                    android:textColor="?attr/colorOnSurfaceVariant" />
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/email_layout"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    style="@style/Widget.MindMate.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="28dp"
                     android:hint="@string/hint_email">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -64,7 +70,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/password_layout"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    style="@style/Widget.MindMate.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
@@ -83,8 +89,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
+                    android:background="@drawable/bg_error_state"
+                    android:padding="12dp"
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    android:textColor="?attr/colorError"
+                    android:textColor="@color/mindmate_on_error_container"
                     android:visibility="gone" />
 
                 <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -119,5 +127,5 @@
                     android:text="@string/action_forgot_password" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </ScrollView>

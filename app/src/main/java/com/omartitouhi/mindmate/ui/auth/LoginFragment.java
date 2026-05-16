@@ -72,7 +72,9 @@ public class LoginFragment extends Fragment {
 
         if (state.getStatus() == Resource.Status.SUCCESS) {
             binding.getRoot().postDelayed(() -> {
-                startActivity(new Intent(requireContext(), MainActivity.class));
+                Intent intent = new Intent(requireContext(), MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
                 requireActivity().finish();
             }, 600);
         }

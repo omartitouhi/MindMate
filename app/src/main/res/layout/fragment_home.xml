@@ -3,46 +3,162 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mindmate_background"
+    android:background="@drawable/bg_app_gradient"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="@dimen/mindmate_screen_padding">
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.MindMate.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@android:color/transparent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_hero_card"
+                android:orientation="vertical"
+                android:padding="22dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Bonjour, prends soin de toi"
+                    android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                    android:textColor="@color/mindmate_text_primary" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Ton espace calme pour suivre ton humeur, ecrire et respirer."
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:textColor="@color/mindmate_text_secondary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_chip"
+                        android:gravity="center"
+                        android:padding="14dp"
+                        android:text="Mood du jour"
+                        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                        android:textColor="@color/mindmate_on_primary_container" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_chip"
+                        android:gravity="center"
+                        android:padding="14dp"
+                        android:text="Respire 1 min"
+                        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                        android:textColor="@color/mindmate_on_primary_container" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/title_home"
-            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+            android:layout_marginTop="22dp"
+            android:text="Raccourcis"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
             android:textColor="?attr/colorOnSurface" />
 
-        <TextView
+        <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="@string/screen_home_subtitle"
-            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            android:textColor="?attr/colorOnSurfaceVariant" />
+            android:layout_marginTop="12dp"
+            android:columnCount="2"
+            android:rowCount="3">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/shortcut_journal_button"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/mindmate_button_height"
+                android:layout_columnWeight="1"
+                android:layout_marginEnd="6dp"
+                android:layout_marginBottom="12dp"
+                android:contentDescription="Ouvrir le journal"
+                android:text="@string/title_journal"
+                app:icon="@drawable/ic_journal" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/shortcut_mood_button"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/mindmate_button_height"
+                android:layout_columnWeight="1"
+                android:layout_marginStart="6dp"
+                android:layout_marginBottom="12dp"
+                android:contentDescription="Ouvrir le mood check-in"
+                android:text="@string/title_mood_check_in"
+                app:icon="@drawable/ic_mood" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/shortcut_meditation_button"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/mindmate_button_height"
+                android:layout_columnWeight="1"
+                android:layout_marginEnd="6dp"
+                android:contentDescription="Ouvrir la meditation"
+                android:text="@string/title_meditation"
+                app:icon="@drawable/ic_meditation" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/shortcut_chat_button"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/mindmate_button_height"
+                android:layout_columnWeight="1"
+                android:layout_marginStart="6dp"
+                android:contentDescription="Ouvrir le chat IA"
+                android:text="@string/title_ai"
+                app:icon="@drawable/ic_ai" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/shortcut_statistics_button"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/mindmate_button_height"
+                android:layout_columnSpan="2"
+                android:layout_columnWeight="1"
+                android:layout_marginTop="12dp"
+                android:contentDescription="Ouvrir les statistiques"
+                android:text="@string/title_statistics"
+                app:icon="@drawable/ic_statistics" />
+        </GridLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/weather_card"
+            style="@style/Widget.MindMate.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:cardBackgroundColor="@color/mindmate_surface_container"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/mindmate_outline"
-            app:strokeWidth="1dp">
+            android:layout_marginTop="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="18dp">
+                android:padding="@dimen/mindmate_card_padding">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -63,6 +179,7 @@
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="@string/action_refresh_weather"
                         android:text="@string/action_refresh_weather" />
                 </LinearLayout>
 
@@ -79,8 +196,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_error_state"
+                    android:padding="12dp"
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                    android:textColor="?attr/colorError"
+                    android:textColor="@color/mindmate_on_error_container"
                     android:visibility="gone" />
 
                 <TextView

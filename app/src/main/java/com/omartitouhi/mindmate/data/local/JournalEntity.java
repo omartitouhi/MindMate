@@ -18,8 +18,9 @@ public class JournalEntity {
     private long createdAt;
     private long updatedAt;
     private boolean synced;
+    private boolean pendingDelete;
 
-    public JournalEntity(@NonNull String id, String userId, String title, String content, String mood, long createdAt, long updatedAt, boolean synced) {
+    public JournalEntity(@NonNull String id, String userId, String title, String content, String mood, long createdAt, long updatedAt, boolean synced, boolean pendingDelete) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -28,6 +29,7 @@ public class JournalEntity {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.synced = synced;
+        this.pendingDelete = pendingDelete;
     }
 
     public static JournalEntity fromJournalEntry(JournalEntry entry, boolean synced) {
@@ -39,7 +41,8 @@ public class JournalEntity {
                 entry.getMood(),
                 entry.getCreatedAt(),
                 entry.getUpdatedAt(),
-                synced
+                synced,
+                false
         );
     }
 
@@ -78,5 +81,9 @@ public class JournalEntity {
 
     public boolean isSynced() {
         return synced;
+    }
+
+    public boolean isPendingDelete() {
+        return pendingDelete;
     }
 }

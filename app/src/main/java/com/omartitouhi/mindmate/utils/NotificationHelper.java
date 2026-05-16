@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.omartitouhi.mindmate.R;
+import com.omartitouhi.mindmate.MainActivity;
 import com.omartitouhi.mindmate.SplashActivity;
 
 import java.util.Calendar;
@@ -31,8 +32,10 @@ public class NotificationHelper {
     public static final String TYPE_DAILY_JOURNAL = "daily_journal";
     public static final String TYPE_MEDITATION = "meditation";
     public static final String TYPE_MOTIVATION = "motivation";
+    public static final String EXTRA_DESTINATION_ID = "mindmate_destination_id";
 
     private static final int JOURNAL_REMINDER_REQUEST_CODE = 1001;
+    private static final int BREATHING_NOTIFICATION_ID = 2001;
 
     private final Context context;
 
@@ -96,6 +99,40 @@ public class NotificationHelper {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat.from(context).notify((int) System.currentTimeMillis(), builder.build());
+    }
+
+    public void showBreathingStartedNotification() {
+        createNotificationChannels();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                && ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(EXTRA_DESTINATION_ID, R.id.meditationFragment);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                context,
+                TYPE_MEDITATION.hashCode(),
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_REMINDERS)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("Exercice de respiration demarre")
+                .setContentText("Prends une minute pour respirer calmement.")
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("Prends une minute pour respirer calmement."))
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat.from(context).notify(BREATHING_NOTIFICATION_ID, builder.build());
+    }
+
+    public void cancelBreathingNotification() {
+        NotificationManagerCompat.from(context).cancel(BREATHING_NOTIFICATION_ID);
     }
 
     public void scheduleDailyJournalReminder() {

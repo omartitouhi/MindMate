@@ -18,6 +18,7 @@ public class JournalViewModel extends AndroidViewModel {
     private final JournalRepository journalRepository;
     private final LiveData<List<JournalEntity>> journalEntries;
     private final MutableLiveData<Resource<JournalEntry>> journalState = new MutableLiveData<>();
+    private final MutableLiveData<Resource<String>> syncState = new MutableLiveData<>();
 
     public JournalViewModel(@NonNull Application application) {
         super(application);
@@ -35,6 +36,10 @@ public class JournalViewModel extends AndroidViewModel {
 
     public LiveData<Resource<JournalEntry>> getJournalState() {
         return journalState;
+    }
+
+    public LiveData<Resource<String>> getSyncState() {
+        return syncState;
     }
 
     public void addEntry(String title, String content, String mood) {
@@ -63,8 +68,18 @@ public class JournalViewModel extends AndroidViewModel {
         journalRepository.deleteEntry(entity, journalState::postValue);
     }
 
+    public void retrySync() {
+        journalRepository.retrySync(syncState::postValue);
+    }
+
     public void clearState() {
         journalState.setValue(null);
+    }
+
+    @Override
+    protected void onCleared() {
+        journalRepository.dispose();
+        super.onCleared();
     }
 
     private boolean validate(String title, String content, String mood) {

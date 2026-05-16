@@ -1,6 +1,7 @@
 package com.omartitouhi.mindmate.data.repository;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -11,6 +12,7 @@ import com.omartitouhi.mindmate.data.local.MoodDao;
 import com.omartitouhi.mindmate.data.local.MoodEntity;
 import com.omartitouhi.mindmate.data.model.Mood;
 import com.omartitouhi.mindmate.data.model.WeatherInfo;
+import com.omartitouhi.mindmate.utils.NetworkUtils;
 import com.omartitouhi.mindmate.utils.Resource;
 
 import java.util.List;
@@ -19,22 +21,32 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MoodRepository {
+    private static final String TAG = "MoodRepository";
+
     public interface MoodCallback {
         void onResult(Resource<Mood> resource);
     }
 
+    public interface SyncCallback {
+        void onResult(Resource<String> resource);
+    }
+
+    private final Context appContext;
     private final MoodDao moodDao;
     private final FirebaseFirestore firestore;
     private final FirebaseAuth firebaseAuth;
     private final WeatherRepository weatherRepository;
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private final NetworkUtils.NetworkMonitor networkMonitor;
 
     public MoodRepository(Context context) {
-        AppDatabase database = AppDatabase.getInstance(context);
+        appContext = context.getApplicationContext();
+        AppDatabase database = AppDatabase.getInstance(appContext);
         moodDao = database.moodDao();
         firestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-        weatherRepository = new WeatherRepository(context);
+        weatherRepository = new WeatherRepository(appContext);
+        networkMonitor = NetworkUtils.registerNetworkMonitor(appContext, () -> syncPendingMoods(null));
     }
 
     public LiveData<List<MoodEntity>> getLocalMoods() {
@@ -60,16 +72,53 @@ public class MoodRepository {
 
         executorService.execute(() -> {
             try {
-                syncPendingMoods();
                 moodDao.insert(MoodEntity.fromMood(mood, false));
-                saveMoodInFirestore(mood, callback);
+                Log.d(TAG, "Mood saved locally: " + mood.getId());
+                callback.onResult(Resource.success(mood));
+                if (NetworkUtils.isNetworkAvailable(appContext)) {
+                    syncMoodInFirestore(mood);
+                    syncPendingMoods(null);
+                } else {
+                    Log.d(TAG, "Offline mode, mood pending sync: " + mood.getId());
+                }
             } catch (Exception exception) {
                 callback.onResult(Resource.error(getReadableError(exception)));
             }
         });
     }
 
-    private void saveMoodInFirestore(Mood mood, MoodCallback callback) {
+    public void retrySync(SyncCallback callback) {
+        syncPendingMoods(callback);
+    }
+
+    private void syncPendingMoods(SyncCallback callback) {
+        if (!NetworkUtils.isNetworkAvailable(appContext)) {
+            if (callback != null) {
+                callback.onResult(Resource.error("Pas de connexion. Synchronisation en attente."));
+            }
+            return;
+        }
+        if (callback != null) {
+            callback.onResult(Resource.loading());
+        }
+        executorService.execute(() -> {
+            List<MoodEntity> pendingMoods = moodDao.getUnsyncedMoodsForUser(getUserId());
+            if (pendingMoods.isEmpty()) {
+                if (callback != null) {
+                    callback.onResult(Resource.success("Toutes les humeurs sont synchronisees."));
+                }
+                return;
+            }
+            for (MoodEntity entity : pendingMoods) {
+                syncMoodInFirestore(entity.toMood());
+            }
+            if (callback != null) {
+                callback.onResult(Resource.success("Synchronisation des humeurs lancee."));
+            }
+        });
+    }
+
+    private void syncMoodInFirestore(Mood mood) {
         firestore.collection("users")
                 .document(mood.getUserId())
                 .collection("moods")
@@ -77,22 +126,13 @@ public class MoodRepository {
                 .set(mood)
                 .addOnSuccessListener(unused -> executorService.execute(() -> {
                     moodDao.markAsSynced(mood.getId());
-                    callback.onResult(Resource.success(mood));
+                    Log.d(TAG, "Mood synced: " + mood.getId());
                 }))
-                .addOnFailureListener(exception -> callback.onResult(Resource.error(getReadableError(exception))));
+                .addOnFailureListener(exception -> Log.e(TAG, "Mood sync failed: " + mood.getId(), exception));
     }
 
-    private void syncPendingMoods() {
-        List<MoodEntity> pendingMoods = moodDao.getUnsyncedMoodsForUser(getUserId());
-        for (MoodEntity entity : pendingMoods) {
-            Mood pendingMood = entity.toMood();
-            firestore.collection("users")
-                    .document(pendingMood.getUserId())
-                    .collection("moods")
-                    .document(pendingMood.getId())
-                    .set(pendingMood)
-                    .addOnSuccessListener(unused -> executorService.execute(() -> moodDao.markAsSynced(pendingMood.getId())));
-        }
+    public void dispose() {
+        networkMonitor.unregister();
     }
 
     private String getUserId() {

@@ -40,11 +40,45 @@ public class JournalListFragment extends Fragment {
         binding.journalRecyclerView.setAdapter(journalAdapter);
         binding.addJournalButton.setOnClickListener(v ->
                 NavHostFragment.findNavController(this).navigate(R.id.action_journalListFragment_to_addJournalFragment));
+        binding.retrySyncButton.setOnClickListener(v -> journalViewModel.retrySync());
 
         journalViewModel.getJournalEntries().observe(getViewLifecycleOwner(), entries -> {
             journalAdapter.submitList(entries);
             boolean empty = entries == null || entries.isEmpty();
             binding.emptyText.setVisibility(empty ? View.VISIBLE : View.GONE);
+            if (empty) {
+                binding.syncStatusText.setText("Aucune entree locale.");
+                return;
+            }
+            int pending = 0;
+            int pendingDelete = 0;
+            for (com.omartitouhi.mindmate.data.local.JournalEntity entry : entries) {
+                if (entry.isPendingDelete()) {
+                    pendingDelete++;
+                } else if (!entry.isSynced()) {
+                    pending++;
+                }
+            }
+            if (pendingDelete > 0) {
+                binding.syncStatusText.setText(pendingDelete + " suppression(s) en attente");
+            } else if (pending > 0) {
+                binding.syncStatusText.setText(pending + " entree(s) en attente de synchronisation");
+            } else {
+                binding.syncStatusText.setText("Journal synchronise");
+            }
+        });
+        journalViewModel.getSyncState().observe(getViewLifecycleOwner(), state -> {
+            if (state == null) {
+                return;
+            }
+            binding.retrySyncButton.setEnabled(state.getStatus() != com.omartitouhi.mindmate.utils.Resource.Status.LOADING);
+            if (state.getStatus() == com.omartitouhi.mindmate.utils.Resource.Status.LOADING) {
+                binding.syncStatusText.setText("Synchronisation du journal...");
+            } else if (state.getStatus() == com.omartitouhi.mindmate.utils.Resource.Status.SUCCESS && state.getData() != null) {
+                binding.syncStatusText.setText(state.getData());
+            } else if (state.getStatus() == com.omartitouhi.mindmate.utils.Resource.Status.ERROR) {
+                binding.syncStatusText.setText(state.getMessage());
+            }
         });
     }
 

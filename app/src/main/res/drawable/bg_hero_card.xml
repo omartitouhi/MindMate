@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="135"
+        android:startColor="@color/mindmate_primary_container"
+        android:centerColor="@color/mindmate_surface_container"
+        android:endColor="@color/mindmate_success_container" />
+    <corners android:radius="@dimen/mindmate_card_radius" />
+</shape>

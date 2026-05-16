@@ -9,6 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.omartitouhi.mindmate.R;
 import com.omartitouhi.mindmate.data.model.WeatherInfo;
@@ -32,8 +35,26 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         weatherViewModel = new ViewModelProvider(this).get(WeatherViewModel.class);
         binding.refreshWeatherButton.setOnClickListener(v -> weatherViewModel.loadCurrentWeather());
+        binding.shortcutJournalButton.setOnClickListener(v -> navigateSingleTop(R.id.journalListFragment));
+        binding.shortcutMoodButton.setOnClickListener(v -> navigateSingleTop(R.id.moodCheckInFragment));
+        binding.shortcutMeditationButton.setOnClickListener(v -> navigateSingleTop(R.id.meditationFragment));
+        binding.shortcutChatButton.setOnClickListener(v -> navigateSingleTop(R.id.aiChatFragment));
+        binding.shortcutStatisticsButton.setOnClickListener(v -> navigateSingleTop(R.id.statisticsFragment));
         weatherViewModel.getWeatherState().observe(getViewLifecycleOwner(), this::renderWeatherState);
         weatherViewModel.loadCurrentWeather();
+    }
+
+    private void navigateSingleTop(int destinationId) {
+        NavController navController = NavHostFragment.findNavController(this);
+        if (navController.getCurrentDestination() != null
+                && navController.getCurrentDestination().getId() == destinationId) {
+            return;
+        }
+        NavOptions navOptions = new NavOptions.Builder()
+                .setLaunchSingleTop(true)
+                .setPopUpTo(R.id.homeFragment, false)
+                .build();
+        navController.navigate(destinationId, null, navOptions);
     }
 
     private void renderWeatherState(Resource<WeatherInfo> state) {

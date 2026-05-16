@@ -55,7 +55,11 @@ public class JournalAdapter extends ListAdapter<JournalEntity, JournalAdapter.Jo
             binding.excerptText.setText(buildExcerpt(entry.getContent()));
             binding.dateText.setText(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(new Date(entry.getCreatedAt())));
             binding.moodText.setText(entry.getMood());
-            binding.syncText.setText(entry.isSynced() ? "Synced" : "Offline");
+            if (entry.isPendingDelete()) {
+                binding.syncText.setText("Suppression en attente");
+            } else {
+                binding.syncText.setText(entry.isSynced() ? "Synchronise" : "En attente");
+            }
             binding.getRoot().setOnClickListener(v -> listener.onJournalClick(entry));
         }
 
@@ -83,7 +87,8 @@ public class JournalAdapter extends ListAdapter<JournalEntity, JournalAdapter.Jo
                     && oldItem.getContent().equals(newItem.getContent())
                     && oldItem.getMood().equals(newItem.getMood())
                     && oldItem.getUpdatedAt() == newItem.getUpdatedAt()
-                    && oldItem.isSynced() == newItem.isSynced();
+                    && oldItem.isSynced() == newItem.isSynced()
+                    && oldItem.isPendingDelete() == newItem.isPendingDelete();
         }
     };
 }

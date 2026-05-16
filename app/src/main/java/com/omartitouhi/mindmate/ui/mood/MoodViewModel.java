@@ -17,6 +17,7 @@ import java.util.List;
 public class MoodViewModel extends AndroidViewModel {
     private final MoodRepository moodRepository;
     private final MutableLiveData<Resource<Mood>> moodState = new MutableLiveData<>();
+    private final MutableLiveData<Resource<String>> syncState = new MutableLiveData<>();
     private final LiveData<List<MoodEntity>> localMoods;
 
     public MoodViewModel(@NonNull Application application) {
@@ -31,6 +32,10 @@ public class MoodViewModel extends AndroidViewModel {
 
     public LiveData<List<MoodEntity>> getLocalMoods() {
         return localMoods;
+    }
+
+    public LiveData<Resource<String>> getSyncState() {
+        return syncState;
     }
 
     public void saveMood(String mood, int stressScore, String note) {
@@ -48,7 +53,17 @@ public class MoodViewModel extends AndroidViewModel {
         moodRepository.saveMood(mood, stressScore, cleanNote, moodState::postValue);
     }
 
+    public void retrySync() {
+        moodRepository.retrySync(syncState::postValue);
+    }
+
     public void clearState() {
         moodState.setValue(null);
+    }
+
+    @Override
+    protected void onCleared() {
+        moodRepository.dispose();
+        super.onCleared();
     }
 }

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.omartitouhi.mindmate.R;
 import com.omartitouhi.mindmate.databinding.FragmentMeditationBinding;
+import com.omartitouhi.mindmate.utils.NotificationHelper;
 
 public class MeditationFragment extends Fragment {
     private FragmentMeditationBinding binding;
@@ -24,6 +25,7 @@ public class MeditationFragment extends Fragment {
     private CountDownTimer countDownTimer;
     private long remainingMillis;
     private boolean running;
+    private NotificationHelper notificationHelper;
 
     @Nullable
     @Override
@@ -35,6 +37,8 @@ public class MeditationFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         meditationViewModel = new ViewModelProvider(this).get(MeditationViewModel.class);
+        notificationHelper = new NotificationHelper(requireContext());
+        notificationHelper.createNotificationChannels();
         exerciseAdapter = new MeditationExerciseAdapter(this::selectExercise);
 
         binding.exercisesRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -69,6 +73,7 @@ public class MeditationFragment extends Fragment {
             remainingMillis = selectedExercise.getDurationMillis();
         }
         running = true;
+        notificationHelper.showBreathingStartedNotification();
         binding.breathingAnimation.playAnimation();
         countDownTimer = new CountDownTimer(remainingMillis, 1000) {
             @Override
@@ -86,6 +91,7 @@ public class MeditationFragment extends Fragment {
                 binding.timerText.setText(formatTime(0));
                 binding.phaseText.setText(R.string.meditation_complete);
                 binding.breathingAnimation.pauseAnimation();
+                notificationHelper.cancelBreathingNotification();
             }
         }.start();
     }

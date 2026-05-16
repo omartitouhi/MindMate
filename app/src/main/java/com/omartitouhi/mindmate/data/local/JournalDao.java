@@ -24,8 +24,11 @@ public interface JournalDao {
     @Query("DELETE FROM journal_entries WHERE id = :id")
     void deleteById(String id);
 
-    @Query("UPDATE journal_entries SET synced = 1 WHERE id = :id")
+    @Query("UPDATE journal_entries SET synced = 1, pendingDelete = 0 WHERE id = :id")
     void markAsSynced(String id);
+
+    @Query("UPDATE journal_entries SET synced = 0, pendingDelete = 1, updatedAt = :updatedAt WHERE id = :id")
+    void markPendingDelete(String id, long updatedAt);
 
     @Query("SELECT * FROM journal_entries ORDER BY createdAt DESC")
     LiveData<List<JournalEntity>> getAllJournalEntries();
@@ -38,4 +41,7 @@ public interface JournalDao {
 
     @Query("SELECT * FROM journal_entries WHERE userId = :userId AND synced = 0 ORDER BY updatedAt ASC")
     List<JournalEntity> getUnsyncedJournalEntriesForUser(String userId);
+
+    @Query("SELECT * FROM journal_entries WHERE userId = :userId AND pendingDelete = 1 ORDER BY updatedAt ASC")
+    List<JournalEntity> getPendingDeleteJournalEntriesForUser(String userId);
 }

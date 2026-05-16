@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.card.MaterialCardView;
 import com.omartitouhi.mindmate.R;
+import com.omartitouhi.mindmate.data.local.MoodEntity;
 import com.omartitouhi.mindmate.data.model.Mood;
 import com.omartitouhi.mindmate.databinding.FragmentMoodCheckInBinding;
 import com.omartitouhi.mindmate.utils.Resource;
@@ -53,8 +54,20 @@ public class MoodCheckInFragment extends Fragment {
                 selectedStressScore,
                 getText(binding.noteInput)
         ));
+        binding.retrySyncButton.setOnClickListener(v -> moodViewModel.retrySync());
 
         moodViewModel.getMoodState().observe(getViewLifecycleOwner(), this::renderState);
+        moodViewModel.getSyncState().observe(getViewLifecycleOwner(), this::renderSyncState);
+        moodViewModel.getLocalMoods().observe(getViewLifecycleOwner(), moods -> {
+            if (moods == null || moods.isEmpty()) {
+                binding.syncStatusText.setText("Aucune humeur sauvegardee.");
+                return;
+            }
+            MoodEntity latestMood = moods.get(0);
+            binding.syncStatusText.setText(latestMood.isSynced()
+                    ? "Derniere humeur : Synchronise"
+                    : "Derniere humeur : En attente de synchronisation");
+        });
     }
 
     private void bindMoodCard(MaterialCardView card, String mood) {
@@ -80,8 +93,22 @@ public class MoodCheckInFragment extends Fragment {
     private void resetCard(MaterialCardView card) {
         card.setStrokeWidth(getResources().getDimensionPixelSize(R.dimen.mood_card_stroke_width));
         card.setStrokeColor(ContextCompat.getColor(requireContext(), R.color.mindmate_outline));
-        card.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white));
+        card.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.mindmate_surface_container));
         card.setRippleColor(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.mindmate_primary_container)));
+    }
+
+    private void renderSyncState(Resource<String> state) {
+        if (state == null) {
+            return;
+        }
+        binding.retrySyncButton.setEnabled(state.getStatus() != Resource.Status.LOADING);
+        if (state.getStatus() == Resource.Status.SUCCESS && state.getData() != null) {
+            binding.syncStatusText.setText(state.getData());
+        } else if (state.getStatus() == Resource.Status.ERROR) {
+            binding.syncStatusText.setText(state.getMessage());
+        } else if (state.getStatus() == Resource.Status.LOADING) {
+            binding.syncStatusText.setText("Synchronisation des humeurs...");
+        }
     }
 
     private void renderState(Resource<Mood> state) {
@@ -99,7 +126,7 @@ public class MoodCheckInFragment extends Fragment {
         boolean hasMessage = state.getStatus() == Resource.Status.ERROR || state.getStatus() == Resource.Status.SUCCESS;
         binding.messageText.setVisibility(hasMessage ? View.VISIBLE : View.GONE);
         binding.messageText.setText(state.getStatus() == Resource.Status.SUCCESS
-                ? getString(R.string.mood_save_success)
+                ? getString(R.string.mood_save_success) + " Statut : local-first."
                 : state.getMessage());
         binding.messageText.setTextColor(ContextCompat.getColor(
                 requireContext(),

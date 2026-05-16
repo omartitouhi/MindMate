@@ -2,21 +2,24 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="mindmate_primary">#276EF1</color>
-    <color name="mindmate_secondary">#00A86B</color>
-    <color name="mindmate_surface">#F7F9FC</color>
-    <color name="mindmate_primary_container">#D8E5FF</color>
-    <color name="mindmate_on_primary_container">#092A66</color>
-    <color name="mindmate_outline">#D7DEE8</color>
-    <color name="mindmate_background">#F4F7FB</color>
+    <color name="mindmate_primary">#5A7CFA</color>
+    <color name="mindmate_secondary">#2EB67D</color>
+    <color name="mindmate_tertiary">#F58FB1</color>
+    <color name="mindmate_warm">#F7B267</color>
+    <color name="mindmate_surface">#FBFCFE</color>
+    <color name="mindmate_primary_container">#E4EAFF</color>
+    <color name="mindmate_on_primary_container">#19306E</color>
+    <color name="mindmate_outline">#DDE5F0</color>
+    <color name="mindmate_background">#F5F7FC</color>
     <color name="mindmate_surface_container">#FFFFFF</color>
-    <color name="mindmate_surface_variant">#EEF3F8</color>
+    <color name="mindmate_surface_variant">#EDF2FA</color>
     <color name="mindmate_text_primary">#172033</color>
-    <color name="mindmate_text_secondary">#657084</color>
-    <color name="mindmate_success_container">#DDF7EA</color>
-    <color name="mindmate_on_success_container">#0F5132</color>
-    <color name="mindmate_error_container">#FFE4E8</color>
+    <color name="mindmate_text_secondary">#68758A</color>
+    <color name="mindmate_success_container">#DDF8EC</color>
+    <color name="mindmate_on_success_container">#0D5A3A</color>
+    <color name="mindmate_error_container">#FFE4EA</color>
     <color name="mindmate_on_error_container">#8A1024</color>
-    <color name="mindmate_nav_selected">#1F5FD4</color>
+    <color name="mindmate_nav_selected">#4C6EF5</color>
     <color name="mindmate_nav_unselected">#7A8495</color>
+    <color name="mindmate_chip">#F0F4FF</color>
 </resources>

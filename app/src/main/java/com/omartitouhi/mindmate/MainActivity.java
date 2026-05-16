@@ -1,6 +1,7 @@
 package com.omartitouhi.mindmate;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +18,7 @@ import androidx.core.content.PermissionChecker;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
@@ -29,12 +30,14 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    private NavController navController;
     private final ActivityResultLauncher<String> notificationPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
             });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        applySavedTheme();
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
@@ -49,18 +52,19 @@ public class MainActivity extends AppCompatActivity {
         });
         setSupportActionBar(binding.toolbar);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        NavHostFragment navHostFragment =
+                (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        if (navHostFragment == null) {
+            throw new IllegalStateException("NavHostFragment introuvable dans activity_main.xml.");
+        }
+        navController = navHostFragment.getNavController();
         DrawerLayout drawerLayout = binding.drawerLayout;
         appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.homeFragment,
                 R.id.journalListFragment,
                 R.id.aiChatFragment,
-                R.id.meditationFragment,
-                R.id.moodCheckInFragment,
                 R.id.statisticsFragment,
-                R.id.profileFragment,
-                R.id.settingsFragment,
-                R.id.aboutFragment
+                R.id.profileFragment
         ).setOpenableLayout(drawerLayout).build();
 
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -76,11 +80,18 @@ public class MainActivity extends AppCompatActivity {
                     || destinationId == R.id.profileFragment;
             binding.appBarMain.bottomNavigation.setVisibility(bottomDestination ? View.VISIBLE : View.GONE);
         });
+        handleNavigationIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleNavigationIntent(intent);
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
     }
@@ -90,12 +101,6 @@ public class MainActivity extends AppCompatActivity {
         boolean notificationsEnabled = preferences.getBoolean(SettingsViewModel.KEY_NOTIFICATIONS_ENABLED, true);
         int reminderHour = preferences.getInt(SettingsViewModel.KEY_JOURNAL_REMINDER_HOUR, 20);
         int reminderMinute = preferences.getInt(SettingsViewModel.KEY_JOURNAL_REMINDER_MINUTE, 0);
-        boolean darkMode = preferences.getBoolean(SettingsViewModel.KEY_DARK_MODE, false);
-
-        AppCompatDelegate.setDefaultNightMode(darkMode
-                ? AppCompatDelegate.MODE_NIGHT_YES
-                : AppCompatDelegate.MODE_NIGHT_NO);
-
         NotificationHelper notificationHelper = new NotificationHelper(this);
         notificationHelper.createNotificationChannels();
         if (notificationsEnabled) {
@@ -109,5 +114,29 @@ public class MainActivity extends AppCompatActivity {
                 && ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PermissionChecker.PERMISSION_GRANTED) {
             notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
         }
+    }
+
+    private void handleNavigationIntent(Intent intent) {
+        if (intent == null || navController == null) {
+            return;
+        }
+        int destinationId = intent.getIntExtra(NotificationHelper.EXTRA_DESTINATION_ID, 0);
+        if (destinationId == 0) {
+            return;
+        }
+        if (navController.getCurrentDestination() != null
+                && navController.getCurrentDestination().getId() == destinationId) {
+            return;
+        }
+        navController.navigate(destinationId);
+        intent.removeExtra(NotificationHelper.EXTRA_DESTINATION_ID);
+    }
+
+    private void applySavedTheme() {
+        SharedPreferences preferences = getSharedPreferences(SettingsViewModel.PREFS_NAME, MODE_PRIVATE);
+        boolean darkMode = preferences.getBoolean(SettingsViewModel.KEY_DARK_MODE, false);
+        AppCompatDelegate.setDefaultNightMode(darkMode
+                ? AppCompatDelegate.MODE_NIGHT_YES
+                : AppCompatDelegate.MODE_NIGHT_NO);
     }
 }
