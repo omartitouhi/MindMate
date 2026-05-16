@@ -81,7 +81,8 @@ public class ChatAdapter extends ListAdapter<ChatMessage, RecyclerView.ViewHolde
         public boolean areContentsTheSame(@NonNull ChatMessage oldItem, @NonNull ChatMessage newItem) {
             return oldItem.getContent().equals(newItem.getContent())
                     && oldItem.getRole().equals(newItem.getRole())
-                    && oldItem.getCreatedAt() == newItem.getCreatedAt();
+                    && oldItem.getTimestamp() == newItem.getTimestamp()
+                    && oldItem.getStatus().equals(newItem.getStatus());
         }
     };
 }

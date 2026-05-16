@@ -8,7 +8,6 @@ import com.omartitouhi.mindmate.data.model.ChatMessage;
 import com.omartitouhi.mindmate.data.repository.ChatRepository;
 import com.omartitouhi.mindmate.utils.Resource;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChatViewModel extends ViewModel {
@@ -30,10 +29,7 @@ public class ChatViewModel extends ViewModel {
             return;
         }
 
-        List<ChatMessage> currentMessages = messages.getValue() == null
-                ? new ArrayList<>()
-                : messages.getValue();
-        chatRepository.sendMessage(content.trim(), currentMessages, chatState::postValue);
+        chatRepository.sendMessage(content.trim(), chatState::postValue);
     }
 
     public void clearState() {
