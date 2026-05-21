@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:gravity="center"
-        android:text="Your Mental Health Companion"
+        android:text="@string/app_tagline"
         android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
         android:textColor="@color/mindmate_text_secondary"
         app:layout_constraintEnd_toEndOf="parent"

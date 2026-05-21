@@ -15,6 +15,6 @@ public class AiAnalysisRequest {
     public AiAnalysisRequest(String journalEntryId, String journalText) {
         this.journalEntryId = journalEntryId;
         this.journalText = journalText;
-        this.safetyInstruction = "Provide supportive, non-medical wellness analysis. Do not provide medical diagnosis.";
+        this.safetyInstruction = "Réponds uniquement en français, avec un ton chaleureux, humain et non médical. Propose une analyse de bien-être générale sans diagnostic médical.";
     }
 }

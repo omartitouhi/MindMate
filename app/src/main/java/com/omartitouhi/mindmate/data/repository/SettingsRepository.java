@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.omartitouhi.mindmate.R;
 import com.omartitouhi.mindmate.data.local.AppDatabase;
 import com.omartitouhi.mindmate.utils.NotificationHelper;
 import com.omartitouhi.mindmate.utils.Resource;
@@ -77,10 +78,12 @@ public class SettingsRepository {
         executorService.execute(() -> {
             try {
                 AppDatabase.getInstance(context).clearAllTables();
-                callback.onResult(Resource.success("Donnees locales supprimees."));
+                callback.onResult(Resource.success(context.getString(R.string.settings_success_delete_local_data)));
             } catch (Exception exception) {
                 String message = exception.getLocalizedMessage();
-                callback.onResult(Resource.error(message == null ? "Impossible de supprimer les donnees locales." : message));
+                callback.onResult(Resource.error(message == null
+                        ? context.getString(R.string.settings_error_delete_local_data)
+                        : message));
             }
         });
     }

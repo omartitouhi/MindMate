@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.omartitouhi.mindmate.data.local.JournalEntity;
+import com.omartitouhi.mindmate.R;
 import com.omartitouhi.mindmate.databinding.ItemJournalEntryBinding;
 
 import java.text.DateFormat;
@@ -56,9 +57,11 @@ public class JournalAdapter extends ListAdapter<JournalEntity, JournalAdapter.Jo
             binding.dateText.setText(DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT).format(new Date(entry.getCreatedAt())));
             binding.moodText.setText(entry.getMood());
             if (entry.isPendingDelete()) {
-                binding.syncText.setText("Suppression en attente");
+                binding.syncText.setText(R.string.journal_sync_delete_pending);
             } else {
-                binding.syncText.setText(entry.isSynced() ? "Synchronise" : "En attente");
+                binding.syncText.setText(entry.isSynced()
+                        ? R.string.journal_sync_item_done
+                        : R.string.journal_sync_item_pending);
             }
             binding.getRoot().setOnClickListener(v -> listener.onJournalClick(entry));
         }

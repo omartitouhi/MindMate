@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.omartitouhi.mindmate.R;
 import com.omartitouhi.mindmate.data.local.JournalEntity;
 import com.omartitouhi.mindmate.data.model.AiAnalysisResult;
 import com.omartitouhi.mindmate.data.repository.AiRepository;
@@ -35,11 +36,11 @@ public class AiViewModel extends AndroidViewModel {
 
     public void analyzeJournal(JournalEntity journalEntry) {
         if (journalEntry == null) {
-            analysisState.setValue(Resource.error("Veuillez selectionner une entree de journal."));
+            analysisState.setValue(Resource.error(getApplication().getString(R.string.ai_error_select_journal)));
             return;
         }
         if (journalEntry.getContent() == null || journalEntry.getContent().trim().isEmpty()) {
-            analysisState.setValue(Resource.error("Cette entree ne contient pas de texte a analyser."));
+            analysisState.setValue(Resource.error(getApplication().getString(R.string.ai_error_empty_journal)));
             return;
         }
         aiRepository.analyzeJournal(journalEntry, analysisState::postValue);

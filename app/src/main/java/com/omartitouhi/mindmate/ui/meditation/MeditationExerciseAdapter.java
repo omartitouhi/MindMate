@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.omartitouhi.mindmate.R;
 import com.omartitouhi.mindmate.databinding.ItemMeditationExerciseBinding;
 
 import java.util.ArrayList;
@@ -68,9 +69,9 @@ public class MeditationExerciseAdapter extends RecyclerView.Adapter<MeditationEx
         private String formatDuration(long durationMillis) {
             long minutes = durationMillis / 60000;
             if (minutes <= 0) {
-                return "< 1 min";
+                return binding.getRoot().getContext().getString(R.string.meditation_duration_less_than_minute);
             }
-            return minutes + " min";
+            return binding.getRoot().getContext().getString(R.string.meditation_duration_minutes, minutes);
         }
     }
 }

@@ -47,7 +47,7 @@ public class JournalListFragment extends Fragment {
             boolean empty = entries == null || entries.isEmpty();
             binding.emptyText.setVisibility(empty ? View.VISIBLE : View.GONE);
             if (empty) {
-                binding.syncStatusText.setText("Aucune entree locale.");
+                binding.syncStatusText.setText(R.string.journal_sync_none_local);
                 return;
             }
             int pending = 0;
@@ -60,11 +60,11 @@ public class JournalListFragment extends Fragment {
                 }
             }
             if (pendingDelete > 0) {
-                binding.syncStatusText.setText(pendingDelete + " suppression(s) en attente");
+                binding.syncStatusText.setText(getString(R.string.journal_sync_pending_delete, pendingDelete));
             } else if (pending > 0) {
-                binding.syncStatusText.setText(pending + " entree(s) en attente de synchronisation");
+                binding.syncStatusText.setText(getString(R.string.journal_sync_pending_entries, pending));
             } else {
-                binding.syncStatusText.setText("Journal synchronise");
+                binding.syncStatusText.setText(R.string.journal_sync_done);
             }
         });
         journalViewModel.getSyncState().observe(getViewLifecycleOwner(), state -> {
@@ -73,7 +73,7 @@ public class JournalListFragment extends Fragment {
             }
             binding.retrySyncButton.setEnabled(state.getStatus() != com.omartitouhi.mindmate.utils.Resource.Status.LOADING);
             if (state.getStatus() == com.omartitouhi.mindmate.utils.Resource.Status.LOADING) {
-                binding.syncStatusText.setText("Synchronisation du journal...");
+                binding.syncStatusText.setText(R.string.journal_sync_loading);
             } else if (state.getStatus() == com.omartitouhi.mindmate.utils.Resource.Status.SUCCESS && state.getData() != null) {
                 binding.syncStatusText.setText(state.getData());
             } else if (state.getStatus() == com.omartitouhi.mindmate.utils.Resource.Status.ERROR) {

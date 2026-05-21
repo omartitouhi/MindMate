@@ -1,19 +1,30 @@
 package com.omartitouhi.mindmate.ui.ai;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
+import com.omartitouhi.mindmate.R;
 import com.omartitouhi.mindmate.data.model.ChatMessage;
 import com.omartitouhi.mindmate.data.repository.ChatRepository;
 import com.omartitouhi.mindmate.utils.Resource;
 
 import java.util.List;
 
-public class ChatViewModel extends ViewModel {
-    private final ChatRepository chatRepository = new ChatRepository();
-    private final LiveData<List<ChatMessage>> messages = chatRepository.getMessages();
+public class ChatViewModel extends AndroidViewModel {
+    private final ChatRepository chatRepository;
+    private final LiveData<List<ChatMessage>> messages;
     private final MutableLiveData<Resource<ChatMessage>> chatState = new MutableLiveData<>();
+    private volatile boolean sending;
+
+    public ChatViewModel(@NonNull Application application) {
+        super(application);
+        chatRepository = new ChatRepository(application);
+        messages = chatRepository.getMessages();
+    }
 
     public LiveData<List<ChatMessage>> getMessages() {
         return messages;
@@ -23,13 +34,24 @@ public class ChatViewModel extends ViewModel {
         return chatState;
     }
 
-    public void sendMessage(String content) {
-        if (content == null || content.trim().isEmpty()) {
-            chatState.setValue(Resource.error("Veuillez saisir un message."));
-            return;
+    public boolean sendMessage(String content) {
+        if (sending) {
+            return false;
         }
 
-        chatRepository.sendMessage(content.trim(), chatState::postValue);
+        if (content == null || content.trim().isEmpty()) {
+            chatState.setValue(Resource.error(getApplication().getString(R.string.ai_chat_error_empty_message)));
+            return false;
+        }
+
+        sending = true;
+        chatRepository.sendMessage(content.trim(), resource -> {
+            if (resource != null && resource.getStatus() != Resource.Status.LOADING) {
+                sending = false;
+            }
+            chatState.postValue(resource);
+        });
+        return true;
     }
 
     public void clearState() {

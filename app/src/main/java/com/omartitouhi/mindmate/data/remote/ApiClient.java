@@ -7,10 +7,16 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.util.concurrent.TimeUnit;
+
 public final class ApiClient {
     private static final String BASE_URL = BuildConfig.MINDMATE_API_BASE_URL;
     private static final String WEATHER_BASE_URL = BuildConfig.WEATHER_API_BASE_URL;
     private static final String N8N_BASE_URL = "https://n8n-mkr-test.duckdns.org/";
+    private static final long N8N_CONNECT_TIMEOUT_SECONDS = 60;
+    private static final long N8N_READ_TIMEOUT_SECONDS = 120;
+    private static final long N8N_WRITE_TIMEOUT_SECONDS = 60;
+    private static final long N8N_CALL_TIMEOUT_SECONDS = 150;
     private static MindMateApiService apiService;
     private static WeatherApiService weatherApiService;
     private static AiApiService aiApiService;
@@ -59,7 +65,7 @@ public final class ApiClient {
         if (n8nChatApiService == null) {
             n8nChatApiService = new Retrofit.Builder()
                     .baseUrl(N8N_BASE_URL)
-                    .client(createClient())
+                    .client(createN8nChatClient())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                     .create(N8nChatApiService.class);
@@ -75,5 +81,14 @@ public final class ApiClient {
             builder.addInterceptor(loggingInterceptor);
         }
         return builder.build();
+    }
+
+    private static OkHttpClient createN8nChatClient() {
+        return createClient().newBuilder()
+                .connectTimeout(N8N_CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .readTimeout(N8N_READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .writeTimeout(N8N_WRITE_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .callTimeout(N8N_CALL_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                .build();
     }
 }

@@ -38,8 +38,9 @@ public class AIChatFragment extends Fragment {
         binding.messagesRecyclerView.setAdapter(chatAdapter);
 
         binding.sendButton.setOnClickListener(v -> {
-            chatViewModel.sendMessage(getMessageText());
-            binding.messageInput.setText("");
+            if (chatViewModel.sendMessage(getMessageText())) {
+                binding.messageInput.setText("");
+            }
         });
 
         chatViewModel.getMessages().observe(getViewLifecycleOwner(), messages -> {

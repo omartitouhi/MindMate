@@ -37,12 +37,12 @@ public class MoodCheckInFragment extends Fragment {
         moodViewModel = new ViewModelProvider(this).get(MoodViewModel.class);
         moodViewModel.clearState();
 
-        bindMoodCard(binding.happyCard, "Happy");
-        bindMoodCard(binding.calmCard, "Calm");
-        bindMoodCard(binding.sadCard, "Sad");
-        bindMoodCard(binding.angryCard, "Angry");
-        bindMoodCard(binding.stressedCard, "Stressed");
-        bindMoodCard(binding.tiredCard, "Tired");
+        bindMoodCard(binding.happyCard, getString(R.string.mood_value_happy));
+        bindMoodCard(binding.calmCard, getString(R.string.mood_value_calm));
+        bindMoodCard(binding.sadCard, getString(R.string.mood_value_sad));
+        bindMoodCard(binding.angryCard, getString(R.string.mood_value_angry));
+        bindMoodCard(binding.stressedCard, getString(R.string.mood_value_stressed));
+        bindMoodCard(binding.tiredCard, getString(R.string.mood_value_tired));
 
         binding.stressSlider.addOnChangeListener((slider, value, fromUser) -> {
             selectedStressScore = Math.round(value);
@@ -60,13 +60,13 @@ public class MoodCheckInFragment extends Fragment {
         moodViewModel.getSyncState().observe(getViewLifecycleOwner(), this::renderSyncState);
         moodViewModel.getLocalMoods().observe(getViewLifecycleOwner(), moods -> {
             if (moods == null || moods.isEmpty()) {
-                binding.syncStatusText.setText("Aucune humeur sauvegardee.");
+                binding.syncStatusText.setText(R.string.mood_none_saved);
                 return;
             }
             MoodEntity latestMood = moods.get(0);
             binding.syncStatusText.setText(latestMood.isSynced()
-                    ? "Derniere humeur : Synchronise"
-                    : "Derniere humeur : En attente de synchronisation");
+                    ? getString(R.string.mood_latest_synced)
+                    : getString(R.string.mood_latest_pending));
         });
     }
 
@@ -107,7 +107,7 @@ public class MoodCheckInFragment extends Fragment {
         } else if (state.getStatus() == Resource.Status.ERROR) {
             binding.syncStatusText.setText(state.getMessage());
         } else if (state.getStatus() == Resource.Status.LOADING) {
-            binding.syncStatusText.setText("Synchronisation des humeurs...");
+            binding.syncStatusText.setText(R.string.mood_sync_loading);
         }
     }
 
@@ -126,7 +126,7 @@ public class MoodCheckInFragment extends Fragment {
         boolean hasMessage = state.getStatus() == Resource.Status.ERROR || state.getStatus() == Resource.Status.SUCCESS;
         binding.messageText.setVisibility(hasMessage ? View.VISIBLE : View.GONE);
         binding.messageText.setText(state.getStatus() == Resource.Status.SUCCESS
-                ? getString(R.string.mood_save_success) + " Statut : local-first."
+                ? getString(R.string.mood_save_success_local_first)
                 : state.getMessage());
         binding.messageText.setTextColor(ContextCompat.getColor(
                 requireContext(),

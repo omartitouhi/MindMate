@@ -1,5 +1,7 @@
 package com.omartitouhi.mindmate.data.repository;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -8,6 +10,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
+import com.omartitouhi.mindmate.R;
 import com.omartitouhi.mindmate.data.model.User;
 import com.omartitouhi.mindmate.utils.Constants;
 import com.omartitouhi.mindmate.utils.Resource;
@@ -19,6 +22,11 @@ public class ProfileRepository {
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     private final MutableLiveData<User> userProfile = new MutableLiveData<>();
+    private final Context appContext;
+
+    public ProfileRepository(Context context) {
+        appContext = context.getApplicationContext();
+    }
 
     public LiveData<User> getUserProfile() {
         return userProfile;
@@ -54,7 +62,7 @@ public class ProfileRepository {
     public void updateDisplayName(String displayName, AuthRepository.ResourceCallback<String> callback) {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser == null) {
-            callback.onResult(Resource.error("Utilisateur non connecte."));
+            callback.onResult(Resource.error(appContext.getString(R.string.profile_error_not_connected)));
             return;
         }
 
@@ -74,7 +82,7 @@ public class ProfileRepository {
                             .set(updates, SetOptions.merge())
                             .addOnSuccessListener(updateUnused -> {
                                 loadUserProfile();
-                                callback.onResult(Resource.success("Profil mis a jour."));
+                                callback.onResult(Resource.success(appContext.getString(R.string.profile_success_updated)));
                             })
                             .addOnFailureListener(exception -> callback.onResult(Resource.error(getReadableError(exception))));
                 })
@@ -88,7 +96,7 @@ public class ProfileRepository {
     private String getReadableError(Exception exception) {
         String message = exception.getLocalizedMessage();
         if (message == null || message.trim().isEmpty()) {
-            return "Impossible de mettre a jour le profil.";
+            return appContext.getString(R.string.profile_error_update);
         }
         return message;
     }

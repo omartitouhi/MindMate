@@ -121,9 +121,9 @@ public class NotificationHelper {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_REMINDERS)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Exercice de respiration demarre")
-                .setContentText("Prends une minute pour respirer calmement.")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Prends une minute pour respirer calmement."))
+                .setContentTitle(context.getString(R.string.notification_breathing_started_title))
+                .setContentText(context.getString(R.string.notification_breathing_started_body))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(context.getString(R.string.notification_breathing_started_body)))
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);

@@ -1,8 +1,11 @@
 package com.omartitouhi.mindmate.data.repository;
 
+import android.content.Context;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.omartitouhi.mindmate.R;
 import com.omartitouhi.mindmate.data.model.User;
 import com.omartitouhi.mindmate.utils.Resource;
 
@@ -13,6 +16,11 @@ public class AuthRepository {
 
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private final FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    private final Context appContext;
+
+    public AuthRepository(Context context) {
+        appContext = context.getApplicationContext();
+    }
 
     public FirebaseUser getCurrentUser() {
         return firebaseAuth.getCurrentUser();
@@ -35,7 +43,7 @@ public class AuthRepository {
                 .addOnSuccessListener(authResult -> {
                     FirebaseUser firebaseUser = authResult.getUser();
                     if (firebaseUser == null) {
-                        callback.onResult(Resource.error("Impossible de creer le compte utilisateur."));
+                        callback.onResult(Resource.error(appContext.getString(R.string.error_account_create)));
                         return;
                     }
 
@@ -69,7 +77,7 @@ public class AuthRepository {
     private String getReadableError(Exception exception) {
         String message = exception.getLocalizedMessage();
         if (message == null || message.trim().isEmpty()) {
-            return "Une erreur est survenue. Veuillez reessayer.";
+            return appContext.getString(R.string.error_generic_retry);
         }
         return message;
     }

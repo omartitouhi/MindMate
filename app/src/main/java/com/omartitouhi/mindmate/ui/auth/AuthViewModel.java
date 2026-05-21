@@ -1,15 +1,24 @@
 package com.omartitouhi.mindmate.ui.auth;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
+import com.omartitouhi.mindmate.R;
 import com.omartitouhi.mindmate.data.repository.AuthRepository;
 import com.omartitouhi.mindmate.utils.Resource;
 
-public class AuthViewModel extends ViewModel {
-    private final AuthRepository authRepository = new AuthRepository();
+public class AuthViewModel extends AndroidViewModel {
+    private final AuthRepository authRepository;
     private final MutableLiveData<Resource<String>> authState = new MutableLiveData<>();
+
+    public AuthViewModel(@NonNull Application application) {
+        super(application);
+        authRepository = new AuthRepository(application);
+    }
 
     public LiveData<Resource<String>> getAuthState() {
         return authState;
@@ -28,7 +37,7 @@ public class AuthViewModel extends ViewModel {
             if (resource.getStatus() == Resource.Status.LOADING) {
                 authState.setValue(Resource.loading());
             } else if (resource.getStatus() == Resource.Status.SUCCESS) {
-                authState.setValue(Resource.success("Connexion reussie."));
+                authState.setValue(Resource.success(getApplication().getString(R.string.auth_success_login)));
             } else {
                 authState.setValue(Resource.error(resource.getMessage()));
             }
@@ -37,7 +46,7 @@ public class AuthViewModel extends ViewModel {
 
     public void register(String displayName, String email, String password, String confirmPassword) {
         if (displayName == null || displayName.trim().isEmpty()) {
-            authState.setValue(Resource.error("Veuillez saisir votre nom."));
+            authState.setValue(Resource.error(getApplication().getString(R.string.error_name_required)));
             return;
         }
 
@@ -46,7 +55,7 @@ public class AuthViewModel extends ViewModel {
         }
 
         if (!password.equals(confirmPassword)) {
-            authState.setValue(Resource.error("Les mots de passe ne correspondent pas."));
+            authState.setValue(Resource.error(getApplication().getString(R.string.error_passwords_mismatch)));
             return;
         }
 
@@ -54,7 +63,7 @@ public class AuthViewModel extends ViewModel {
             if (resource.getStatus() == Resource.Status.LOADING) {
                 authState.setValue(Resource.loading());
             } else if (resource.getStatus() == Resource.Status.SUCCESS) {
-                authState.setValue(Resource.success("Compte cree avec succes."));
+                authState.setValue(Resource.success(getApplication().getString(R.string.auth_success_register)));
             } else {
                 authState.setValue(Resource.error(resource.getMessage()));
             }
@@ -63,7 +72,7 @@ public class AuthViewModel extends ViewModel {
 
     public void resetPassword(String email) {
         if (email == null || email.trim().isEmpty()) {
-            authState.setValue(Resource.error("Veuillez saisir votre adresse email."));
+            authState.setValue(Resource.error(getApplication().getString(R.string.error_email_required)));
             return;
         }
 
@@ -71,7 +80,7 @@ public class AuthViewModel extends ViewModel {
             if (resource.getStatus() == Resource.Status.LOADING) {
                 authState.setValue(Resource.loading());
             } else if (resource.getStatus() == Resource.Status.SUCCESS) {
-                authState.setValue(Resource.success("Email de reinitialisation envoye."));
+                authState.setValue(Resource.success(getApplication().getString(R.string.auth_success_reset)));
             } else {
                 authState.setValue(Resource.error(resource.getMessage()));
             }
@@ -80,7 +89,7 @@ public class AuthViewModel extends ViewModel {
 
     public void logout() {
         authRepository.logout();
-        authState.setValue(Resource.success("Deconnexion reussie."));
+        authState.setValue(Resource.success(getApplication().getString(R.string.auth_success_logout)));
     }
 
     public void clearState() {
@@ -89,12 +98,12 @@ public class AuthViewModel extends ViewModel {
 
     private boolean validateEmailAndPassword(String email, String password) {
         if (email == null || email.trim().isEmpty()) {
-            authState.setValue(Resource.error("Veuillez saisir votre adresse email."));
+            authState.setValue(Resource.error(getApplication().getString(R.string.error_email_required)));
             return false;
         }
 
         if (password == null || password.length() < 6) {
-            authState.setValue(Resource.error("Le mot de passe doit contenir au moins 6 caracteres."));
+            authState.setValue(Resource.error(getApplication().getString(R.string.error_password_too_short)));
             return false;
         }
 

@@ -118,7 +118,7 @@ public class MeditationFragment extends Fragment {
     }
 
     private int getPhaseText() {
-        if (selectedExercise == null || !"Respiration 4-4-4".equals(selectedExercise.getTitle())) {
+        if (selectedExercise == null || !getString(R.string.meditation_exercise_breathing_title).equals(selectedExercise.getTitle())) {
             return R.string.meditation_soft_breath;
         }
 

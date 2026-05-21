@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.omartitouhi.mindmate.R;
 import com.omartitouhi.mindmate.data.model.StatisticsSummary;
 import com.omartitouhi.mindmate.data.model.User;
 import com.omartitouhi.mindmate.data.repository.ProfileRepository;
@@ -14,12 +15,13 @@ import com.omartitouhi.mindmate.data.repository.StatisticsRepository;
 import com.omartitouhi.mindmate.utils.Resource;
 
 public class ProfileViewModel extends AndroidViewModel {
-    private final ProfileRepository profileRepository = new ProfileRepository();
+    private final ProfileRepository profileRepository;
     private final StatisticsRepository statisticsRepository;
     private final MutableLiveData<Resource<String>> profileState = new MutableLiveData<>();
 
     public ProfileViewModel(@NonNull Application application) {
         super(application);
+        profileRepository = new ProfileRepository(application);
         statisticsRepository = new StatisticsRepository(application);
         loadUserProfile();
     }
@@ -42,7 +44,7 @@ public class ProfileViewModel extends AndroidViewModel {
 
     public void updateDisplayName(String displayName) {
         if (displayName == null || displayName.trim().isEmpty()) {
-            profileState.setValue(Resource.error("Veuillez saisir un nom."));
+            profileState.setValue(Resource.error(getApplication().getString(R.string.error_name_required)));
             return;
         }
         profileRepository.updateDisplayName(displayName, profileState::setValue);

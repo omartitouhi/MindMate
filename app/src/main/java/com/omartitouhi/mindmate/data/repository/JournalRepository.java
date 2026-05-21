@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.omartitouhi.mindmate.R;
 import com.omartitouhi.mindmate.data.local.AppDatabase;
 import com.omartitouhi.mindmate.data.local.JournalDao;
 import com.omartitouhi.mindmate.data.local.JournalEntity;
@@ -123,7 +124,7 @@ public class JournalRepository {
     private void syncPendingEntries(SyncCallback callback) {
         if (!NetworkUtils.isNetworkAvailable(appContext)) {
             if (callback != null) {
-                callback.onResult(Resource.error("Pas de connexion. Synchronisation en attente."));
+                callback.onResult(Resource.error(appContext.getString(R.string.network_offline_sync_pending)));
             }
             return;
         }
@@ -133,7 +134,7 @@ public class JournalRepository {
         executorService.execute(() -> {
             List<JournalEntity> pendingEntries = journalDao.getUnsyncedJournalEntriesForUser(getUserId());
             if (pendingEntries.isEmpty() && callback != null) {
-                callback.onResult(Resource.success("Toutes les entrees journal sont synchronisees."));
+                callback.onResult(Resource.success(appContext.getString(R.string.journal_sync_all_done)));
             }
             for (JournalEntity entity : pendingEntries) {
                 if (entity.isPendingDelete()) {
@@ -143,7 +144,7 @@ public class JournalRepository {
                 }
             }
             if (!pendingEntries.isEmpty() && callback != null) {
-                callback.onResult(Resource.success("Synchronisation du journal lancee."));
+                callback.onResult(Resource.success(appContext.getString(R.string.journal_sync_started)));
             }
         });
     }
@@ -187,7 +188,7 @@ public class JournalRepository {
     private String getReadableError(Exception exception) {
         String message = exception.getLocalizedMessage();
         if (message == null || message.trim().isEmpty()) {
-            return "Impossible de synchroniser le journal pour le moment.";
+            return appContext.getString(R.string.journal_error_sync);
         }
         return message;
     }

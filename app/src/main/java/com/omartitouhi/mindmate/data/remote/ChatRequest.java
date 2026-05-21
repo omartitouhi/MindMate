@@ -14,6 +14,6 @@ public class ChatRequest {
 
     public ChatRequest(List<ChatMessage> messages) {
         this.messages = messages;
-        this.safetyInstruction = "Stay in a general wellbeing support role. Do not provide medical diagnosis, crisis assessment, or treatment instructions. Encourage professional help when appropriate.";
+        this.safetyInstruction = "Réponds uniquement en français. Garde un ton humain, chaleureux, empathique et conversationnel. Reste dans un rôle de soutien bien-être général, sans diagnostic médical, évaluation de crise ni consignes de traitement. Encourage l’aide d’un professionnel quand c’est approprié.";
     }
 }

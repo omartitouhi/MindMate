@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.omartitouhi.mindmate.R;
 import com.omartitouhi.mindmate.data.local.MoodEntity;
 import com.omartitouhi.mindmate.data.model.Mood;
 import com.omartitouhi.mindmate.data.repository.MoodRepository;
@@ -40,12 +41,12 @@ public class MoodViewModel extends AndroidViewModel {
 
     public void saveMood(String mood, int stressScore, String note) {
         if (mood == null || mood.trim().isEmpty()) {
-            moodState.setValue(Resource.error("Veuillez choisir une humeur."));
+            moodState.setValue(Resource.error(getApplication().getString(R.string.mood_error_required)));
             return;
         }
 
         if (stressScore < 1 || stressScore > 10) {
-            moodState.setValue(Resource.error("Le score de stress doit etre entre 1 et 10."));
+            moodState.setValue(Resource.error(getApplication().getString(R.string.mood_error_stress_range)));
             return;
         }
 

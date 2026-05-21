@@ -40,7 +40,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Hello, bienvenue dans MindMate"
+                            android:text="@string/home_welcome"
                             android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
                             android:textColor="@color/mindmate_text_primary" />
 
@@ -48,7 +48,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="Ton espace calme pour suivre ton humeur, ecrire et respirer."
+                            android:text="@string/home_subtitle"
                             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                             android:textColor="@color/mindmate_text_secondary" />
                     </LinearLayout>
@@ -68,7 +68,7 @@
                     android:layout_marginTop="16dp"
                     android:background="@drawable/bg_soft_info"
                     android:padding="14dp"
-                    android:text="Recommandation du jour : note une emotion, puis prends une respiration lente."
+                    android:text="@string/home_daily_recommendation"
                     android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                     android:textColor="@color/mindmate_on_primary_container" />
 
@@ -79,6 +79,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/txttttt"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
@@ -86,7 +87,7 @@
                         android:background="@drawable/bg_chip"
                         android:gravity="center"
                         android:padding="14dp"
-                        android:text="Mood du jour"
+                        android:text="@string/home_daily_mood"
                         android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                         android:textColor="@color/mindmate_on_primary_container" />
 
@@ -98,7 +99,7 @@
                         android:background="@drawable/bg_chip"
                         android:gravity="center"
                         android:padding="14dp"
-                        android:text="Respire 1 min"
+                        android:text="@string/home_breathe_one_minute"
                         android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                         android:textColor="@color/mindmate_on_primary_container" />
                 </LinearLayout>
@@ -109,7 +110,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
-            android:text="Raccourcis"
+            android:text="@string/home_shortcuts"
             android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
             android:textColor="?attr/colorOnSurface" />
 
@@ -128,7 +129,7 @@
                 android:layout_columnWeight="1"
                 android:layout_marginEnd="6dp"
                 android:layout_marginBottom="12dp"
-                android:contentDescription="Ouvrir le journal"
+                android:contentDescription="@string/content_open_journal"
                 android:text="@string/title_journal"
                 app:icon="@drawable/ic_journal" />
 
@@ -140,7 +141,7 @@
                 android:layout_columnWeight="1"
                 android:layout_marginStart="6dp"
                 android:layout_marginBottom="12dp"
-                android:contentDescription="Ouvrir le mood check-in"
+                android:contentDescription="@string/content_open_mood_check_in"
                 android:text="@string/title_mood_check_in"
                 app:icon="@drawable/ic_mood" />
 
@@ -151,7 +152,7 @@
                 android:layout_height="@dimen/mindmate_button_height"
                 android:layout_columnWeight="1"
                 android:layout_marginEnd="6dp"
-                android:contentDescription="Ouvrir la meditation"
+                android:contentDescription="@string/content_open_meditation"
                 android:text="@string/title_meditation"
                 app:icon="@drawable/ic_meditation" />
 
@@ -162,7 +163,7 @@
                 android:layout_height="@dimen/mindmate_button_height"
                 android:layout_columnWeight="1"
                 android:layout_marginStart="6dp"
-                android:contentDescription="Ouvrir le chat IA"
+                android:contentDescription="@string/content_open_ai_chat"
                 android:text="@string/title_ai"
                 app:icon="@drawable/ic_ai" />
 
@@ -174,7 +175,7 @@
                 android:layout_columnSpan="2"
                 android:layout_columnWeight="1"
                 android:layout_marginTop="12dp"
-                android:contentDescription="Ouvrir les statistiques"
+                android:contentDescription="@string/content_open_statistics"
                 android:text="@string/title_statistics"
                 app:icon="@drawable/ic_statistics" />
         </GridLayout>

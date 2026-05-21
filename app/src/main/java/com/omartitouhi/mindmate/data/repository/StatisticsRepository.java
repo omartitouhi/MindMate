@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.omartitouhi.mindmate.R;
 import com.omartitouhi.mindmate.data.local.AppDatabase;
 import com.omartitouhi.mindmate.data.local.JournalEntity;
 import com.omartitouhi.mindmate.data.local.MoodEntity;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 public class StatisticsRepository {
+    private final Context appContext;
     private final LiveData<List<MoodEntity>> moods;
     private final LiveData<List<JournalEntity>> journals;
     private final MediatorLiveData<StatisticsSummary> summary = new MediatorLiveData<>();
@@ -25,7 +27,8 @@ public class StatisticsRepository {
     private List<JournalEntity> latestJournals = new ArrayList<>();
 
     public StatisticsRepository(Context context) {
-        AppDatabase database = AppDatabase.getInstance(context);
+        appContext = context.getApplicationContext();
+        AppDatabase database = AppDatabase.getInstance(appContext);
         String userId = FirebaseAuth.getInstance().getCurrentUser() != null
                 ? FirebaseAuth.getInstance().getCurrentUser().getUid()
                 : "anonymous";
@@ -53,7 +56,7 @@ public class StatisticsRepository {
                 buildMoodScoresLastSevenDays(latestMoods),
                 calculateAverageStress(latestMoods),
                 latestJournals.size(),
-                findMostFrequentMood(latestMoods),
+                localizeMood(findMostFrequentMood(latestMoods)),
                 calculateWeeklyProgress(latestMoods)
         ));
     }
@@ -121,35 +124,59 @@ public class StatisticsRepository {
             }
         }
         if (moodCount == 0) {
-            return "Aucune donnee cette semaine";
+            return appContext.getString(R.string.statistics_no_data_week);
         }
         float weeklyStress = stressTotal / moodCount;
         if (weeklyStress <= 4f) {
-            return "Semaine plutot stable";
+            return appContext.getString(R.string.statistics_week_stable);
         }
         if (weeklyStress <= 7f) {
-            return "Semaine a surveiller";
+            return appContext.getString(R.string.statistics_week_watch);
         }
-        return "Stress eleve cette semaine";
+        return appContext.getString(R.string.statistics_week_high_stress);
     }
 
     private float moodToScore(String mood) {
-        if ("Happy".equals(mood)) {
+        if ("Happy".equals(mood) || appContext.getString(R.string.mood_value_happy).equals(mood)) {
             return 5f;
         }
-        if ("Calm".equals(mood)) {
+        if ("Calm".equals(mood) || appContext.getString(R.string.mood_value_calm).equals(mood)) {
             return 4f;
         }
-        if ("Tired".equals(mood)) {
+        if ("Tired".equals(mood) || appContext.getString(R.string.mood_value_tired).equals(mood)) {
             return 3f;
         }
-        if ("Sad".equals(mood) || "Stressed".equals(mood)) {
+        if ("Sad".equals(mood) || "Stressed".equals(mood)
+                || appContext.getString(R.string.mood_value_sad).equals(mood)
+                || appContext.getString(R.string.mood_value_stressed).equals(mood)) {
             return 2f;
         }
-        if ("Angry".equals(mood)) {
+        if ("Angry".equals(mood) || appContext.getString(R.string.mood_value_angry).equals(mood)) {
             return 1f;
         }
         return 3f;
+    }
+
+    private String localizeMood(String mood) {
+        if ("Happy".equals(mood)) {
+            return appContext.getString(R.string.mood_value_happy);
+        }
+        if ("Calm".equals(mood)) {
+            return appContext.getString(R.string.mood_value_calm);
+        }
+        if ("Tired".equals(mood)) {
+            return appContext.getString(R.string.mood_value_tired);
+        }
+        if ("Sad".equals(mood)) {
+            return appContext.getString(R.string.mood_value_sad);
+        }
+        if ("Stressed".equals(mood)) {
+            return appContext.getString(R.string.mood_value_stressed);
+        }
+        if ("Angry".equals(mood)) {
+            return appContext.getString(R.string.mood_value_angry);
+        }
+        return mood;
     }
 
     private long startOfDay(long timestamp) {

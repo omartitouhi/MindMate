@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="MindMate accompagne le bien-etre quotidien et ne remplace pas un professionnel de sante."
+                android:text="@string/about_health_disclaimer"
                 android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                 android:textColor="?attr/colorOnSurfaceVariant" />
         </LinearLayout>

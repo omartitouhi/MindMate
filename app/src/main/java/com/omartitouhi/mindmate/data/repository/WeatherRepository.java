@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 
+import com.omartitouhi.mindmate.R;
 import com.omartitouhi.mindmate.data.model.WeatherInfo;
 import com.omartitouhi.mindmate.data.remote.ApiClient;
 import com.omartitouhi.mindmate.data.remote.WeatherApiService;
@@ -31,10 +32,12 @@ public class WeatherRepository {
 
     private final WeatherApiService weatherApiService;
     private final SharedPreferences sharedPreferences;
+    private final Context appContext;
 
     public WeatherRepository(Context context) {
+        appContext = context.getApplicationContext();
         weatherApiService = ApiClient.getWeatherApiService();
-        sharedPreferences = context.getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = appContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
     public void getCurrentWeather(WeatherCallback callback) {
@@ -45,7 +48,7 @@ public class WeatherRepository {
                     public void onResponse(@NonNull Call<WeatherResponse> call, @NonNull Response<WeatherResponse> response) {
                         WeatherResponse body = response.body();
                         if (!response.isSuccessful() || body == null || body.getCurrentWeather() == null) {
-                            callback.onResult(Resource.error("Impossible de recuperer la meteo actuelle."));
+                            callback.onResult(Resource.error(appContext.getString(R.string.weather_error_current)));
                             return;
                         }
 
@@ -98,46 +101,48 @@ public class WeatherRepository {
 
     private String mapWeatherCode(int code) {
         if (code == 0) {
-            return "Clear";
+            return appContext.getString(R.string.weather_condition_clear);
         }
         if (code == 1 || code == 2 || code == 3) {
-            return "Cloudy";
+            return appContext.getString(R.string.weather_condition_cloudy);
         }
         if ((code >= 45 && code <= 48)) {
-            return "Fog";
+            return appContext.getString(R.string.weather_condition_fog);
         }
         if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) {
-            return "Rain";
+            return appContext.getString(R.string.weather_condition_rain);
         }
         if (code >= 71 && code <= 77) {
-            return "Snow";
+            return appContext.getString(R.string.weather_condition_snow);
         }
         if (code >= 95) {
-            return "Storm";
+            return appContext.getString(R.string.weather_condition_storm);
         }
-        return "Mild";
+        return appContext.getString(R.string.weather_condition_mild);
     }
 
     private String buildAdvice(String condition) {
-        if ("Clear".equals(condition)) {
-            return "Profitez de la lumiere naturelle pour une courte marche mindful.";
+        if (appContext.getString(R.string.weather_condition_clear).equals(condition)) {
+            return appContext.getString(R.string.weather_advice_clear);
         }
-        if ("Cloudy".equals(condition) || "Fog".equals(condition)) {
-            return "Gardez un rythme doux et notez ce qui vous aide a rester ancre.";
+        if (appContext.getString(R.string.weather_condition_cloudy).equals(condition)
+                || appContext.getString(R.string.weather_condition_fog).equals(condition)) {
+            return appContext.getString(R.string.weather_advice_cloudy);
         }
-        if ("Rain".equals(condition) || "Storm".equals(condition)) {
-            return "Essayez une respiration calme ou une entree journal au chaud.";
+        if (appContext.getString(R.string.weather_condition_rain).equals(condition)
+                || appContext.getString(R.string.weather_condition_storm).equals(condition)) {
+            return appContext.getString(R.string.weather_advice_rain);
         }
-        if ("Snow".equals(condition)) {
-            return "Prenez soin de votre energie et planifiez une pause reparatrice.";
+        if (appContext.getString(R.string.weather_condition_snow).equals(condition)) {
+            return appContext.getString(R.string.weather_advice_snow);
         }
-        return "Ecoutez votre corps et choisissez un check-in simple aujourd'hui.";
+        return appContext.getString(R.string.weather_advice_default);
     }
 
     private String getReadableError(Throwable throwable) {
         String message = throwable.getLocalizedMessage();
         if (message == null || message.trim().isEmpty()) {
-            return "La meteo est indisponible pour le moment.";
+            return appContext.getString(R.string.weather_error_unavailable);
         }
         return message;
     }

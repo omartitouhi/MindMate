@@ -103,6 +103,6 @@
             android:contentDescription="@string/action_send_message"
             android:insetLeft="0dp"
             android:insetRight="0dp"
-            android:text=">" />
+            android:text="@string/action_send_message" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

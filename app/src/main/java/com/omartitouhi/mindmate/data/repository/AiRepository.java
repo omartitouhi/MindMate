@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
+import com.omartitouhi.mindmate.R;
 import com.omartitouhi.mindmate.data.local.AppDatabase;
 import com.omartitouhi.mindmate.data.local.JournalEntity;
 import com.omartitouhi.mindmate.data.model.AiAnalysisResult;
@@ -26,10 +27,12 @@ public class AiRepository {
 
     private final AiApiService aiApiService;
     private final LiveData<List<JournalEntity>> journalEntries;
+    private final Context appContext;
 
     public AiRepository(Context context) {
+        appContext = context.getApplicationContext();
         aiApiService = ApiClient.getAiApiService();
-        journalEntries = AppDatabase.getInstance(context).journalDao().getAllJournalEntries();
+        journalEntries = AppDatabase.getInstance(appContext).journalDao().getAllJournalEntries();
     }
 
     public LiveData<List<JournalEntity>> getJournalEntries() {
@@ -44,7 +47,7 @@ public class AiRepository {
             public void onResponse(@NonNull Call<AiAnalysisResult> call, @NonNull Response<AiAnalysisResult> response) {
                 AiAnalysisResult body = response.body();
                 if (!response.isSuccessful() || body == null) {
-                    callback.onResult(Resource.error("Impossible d'analyser cette entree pour le moment."));
+                    callback.onResult(Resource.error(appContext.getString(R.string.ai_error_analysis)));
                     return;
                 }
                 callback.onResult(Resource.success(body));
@@ -60,7 +63,7 @@ public class AiRepository {
     private String getReadableError(Throwable throwable) {
         String message = throwable.getLocalizedMessage();
         if (message == null || message.trim().isEmpty()) {
-            return "Le service d'analyse IA est indisponible.";
+            return appContext.getString(R.string.ai_error_service_unavailable);
         }
         return message;
     }
