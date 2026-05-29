@@ -171,7 +171,7 @@
     <string name="ai_chat_disclaimer">MindMate AI propose un soutien de bien-être général. Il ne fournit pas de diagnostic médical et ne remplace pas un professionnel de santé.</string>
     <string name="ai_chat_empty">Démarrez une conversation bien-être avec MindMate AI.</string>
     <string name="ai_chat_input_hint">Votre message</string>
-    <string name="action_send_message">Envoyer</string>
+    <string name="action_send_message">></string>
     <string name="ai_chat_error_login">Veuillez vous connecter pour utiliser le chatbot.</string>
     <string name="ai_chat_error_generic">Je n’arrive pas à répondre pour le moment. Réessaie dans quelques instants.</string>
     <string name="ai_chat_error_timeout">La réponse prend trop de temps. Réessaie dans quelques instants.</string>
